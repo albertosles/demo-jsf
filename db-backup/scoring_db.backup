@@ -1,0 +1,796 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.1.3
+-- Dumped by pg_dump version 9.1.3
+-- Started on 2012-12-13 17:43:12
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 184 (class 3079 OID 11639)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1953 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 180 (class 1259 OID 24846)
+-- Dependencies: 5
+-- Name: application_field_specification; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE application_field_specification (
+    id integer NOT NULL,
+    name character varying(500),
+    data_type_id integer,
+    format_pattern character varying(500),
+    app_spec_id integer
+);
+
+
+ALTER TABLE public.application_field_specification OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 24815)
+-- Dependencies: 5
+-- Name: application_specification; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE application_specification (
+    id integer NOT NULL,
+    external_system_id integer,
+    name character varying(500)
+);
+
+
+ALTER TABLE public.application_specification OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 24854)
+-- Dependencies: 5
+-- Name: data_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE data_type (
+    id integer NOT NULL,
+    description character varying(500),
+    code character varying(500)
+);
+
+
+ALTER TABLE public.data_type OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 24804)
+-- Dependencies: 5
+-- Name: external_system; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE external_system (
+    id integer NOT NULL,
+    name character varying(500)
+);
+
+
+ALTER TABLE public.external_system OWNER TO postgres;
+
+--
+-- TOC entry 170 (class 1259 OID 24796)
+-- Dependencies: 5
+-- Name: mapping_scheme; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE mapping_scheme (
+    id integer NOT NULL,
+    name character varying(500),
+    app_spec_id integer,
+    scoring_scheme_id integer
+);
+
+
+ALTER TABLE public.mapping_scheme OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 24823)
+-- Dependencies: 5
+-- Name: mapping_scheme_rule; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE mapping_scheme_rule (
+    id integer NOT NULL,
+    scoring_rule_id integer,
+    mapping_scheme_id integer
+);
+
+
+ALTER TABLE public.mapping_scheme_rule OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 24828)
+-- Dependencies: 5
+-- Name: mapping_scheme_rule_case; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE mapping_scheme_rule_case (
+    id integer NOT NULL,
+    mapping_rule_id integer,
+    condition_expression character varying(500),
+    scoring_rule_case_id integer
+);
+
+
+ALTER TABLE public.mapping_scheme_rule_case OWNER TO postgres;
+
+--
+-- TOC entry 163 (class 1259 OID 16629)
+-- Dependencies: 5
+-- Name: scoring_factor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE scoring_factor (
+    id integer NOT NULL,
+    name character varying(500)
+);
+
+
+ALTER TABLE public.scoring_factor OWNER TO postgres;
+
+--
+-- TOC entry 164 (class 1259 OID 16634)
+-- Dependencies: 5
+-- Name: scoring_rule; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE scoring_rule (
+    id integer NOT NULL,
+    scheme_id integer,
+    factor_id integer,
+    weight double precision
+);
+
+
+ALTER TABLE public.scoring_rule OWNER TO postgres;
+
+--
+-- TOC entry 165 (class 1259 OID 16639)
+-- Dependencies: 5
+-- Name: scoring_rule_case; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE scoring_rule_case (
+    id integer NOT NULL,
+    rule_id integer,
+    factor_choice character varying(300),
+    score integer
+);
+
+
+ALTER TABLE public.scoring_rule_case OWNER TO postgres;
+
+--
+-- TOC entry 162 (class 1259 OID 16621)
+-- Dependencies: 5
+-- Name: scoring_scheme; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE scoring_scheme (
+    id integer NOT NULL,
+    name character varying(500)
+);
+
+
+ALTER TABLE public.scoring_scheme OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 24862)
+-- Dependencies: 5
+-- Name: seq_application_field_specification; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_application_field_specification
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_application_field_specification OWNER TO postgres;
+
+--
+-- TOC entry 1954 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: seq_application_field_specification; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_application_field_specification', 9, true);
+
+
+--
+-- TOC entry 176 (class 1259 OID 24838)
+-- Dependencies: 5
+-- Name: seq_application_specification; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_application_specification
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_application_specification OWNER TO postgres;
+
+--
+-- TOC entry 1955 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: seq_application_specification; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_application_specification', 6, true);
+
+
+--
+-- TOC entry 161 (class 1259 OID 16619)
+-- Dependencies: 5
+-- Name: seq_car; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_car
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_car OWNER TO postgres;
+
+--
+-- TOC entry 1956 (class 0 OID 0)
+-- Dependencies: 161
+-- Name: seq_car; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_car', 2, true);
+
+
+--
+-- TOC entry 183 (class 1259 OID 24864)
+-- Dependencies: 5
+-- Name: seq_data_type; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_data_type
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_data_type OWNER TO postgres;
+
+--
+-- TOC entry 1957 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: seq_data_type; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_data_type', 1, false);
+
+
+--
+-- TOC entry 175 (class 1259 OID 24836)
+-- Dependencies: 5
+-- Name: seq_external_system; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_external_system
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_external_system OWNER TO postgres;
+
+--
+-- TOC entry 1958 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: seq_external_system; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_external_system', 8, true);
+
+
+--
+-- TOC entry 166 (class 1259 OID 16644)
+-- Dependencies: 5
+-- Name: seq_factor; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_factor
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_factor OWNER TO postgres;
+
+--
+-- TOC entry 1959 (class 0 OID 0)
+-- Dependencies: 166
+-- Name: seq_factor; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_factor', 31, true);
+
+
+--
+-- TOC entry 177 (class 1259 OID 24840)
+-- Dependencies: 5
+-- Name: seq_mapping_scheme; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_mapping_scheme
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_mapping_scheme OWNER TO postgres;
+
+--
+-- TOC entry 1960 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: seq_mapping_scheme; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_mapping_scheme', 10, true);
+
+
+--
+-- TOC entry 178 (class 1259 OID 24842)
+-- Dependencies: 5
+-- Name: seq_mapping_scheme_rule; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_mapping_scheme_rule
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_mapping_scheme_rule OWNER TO postgres;
+
+--
+-- TOC entry 1961 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: seq_mapping_scheme_rule; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_mapping_scheme_rule', 12, true);
+
+
+--
+-- TOC entry 179 (class 1259 OID 24844)
+-- Dependencies: 5
+-- Name: seq_mapping_scheme_rule_case; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_mapping_scheme_rule_case
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_mapping_scheme_rule_case OWNER TO postgres;
+
+--
+-- TOC entry 1962 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: seq_mapping_scheme_rule_case; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_mapping_scheme_rule_case', 14, true);
+
+
+--
+-- TOC entry 167 (class 1259 OID 16646)
+-- Dependencies: 5
+-- Name: seq_rule; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_rule
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_rule OWNER TO postgres;
+
+--
+-- TOC entry 1963 (class 0 OID 0)
+-- Dependencies: 167
+-- Name: seq_rule; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_rule', 27, true);
+
+
+--
+-- TOC entry 168 (class 1259 OID 16648)
+-- Dependencies: 5
+-- Name: seq_rule_case; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_rule_case
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_rule_case OWNER TO postgres;
+
+--
+-- TOC entry 1964 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: seq_rule_case; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_rule_case', 30, true);
+
+
+--
+-- TOC entry 169 (class 1259 OID 16650)
+-- Dependencies: 5
+-- Name: seq_scheme; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_scheme
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_scheme OWNER TO postgres;
+
+--
+-- TOC entry 1965 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: seq_scheme; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_scheme', 34, true);
+
+
+--
+-- TOC entry 1946 (class 0 OID 24846)
+-- Dependencies: 180
+-- Data for Name: application_field_specification; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY application_field_specification (id, name, data_type_id, format_pattern, app_spec_id) FROM stdin;
+3	Marital	1		2
+2	Gender	1	Str	2
+7	Age	2		1
+8	Gender	1		1
+9	Marital	1		1
+\.
+
+
+--
+-- TOC entry 1943 (class 0 OID 24815)
+-- Dependencies: 172
+-- Data for Name: application_specification; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY application_specification (id, external_system_id, name) FROM stdin;
+1	1	Appication Specification 01
+6	5	App Specs 03
+2	7	App Specs 02
+\.
+
+
+--
+-- TOC entry 1947 (class 0 OID 24854)
+-- Dependencies: 181
+-- Data for Name: data_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY data_type (id, description, code) FROM stdin;
+1	String	String
+2	Integer	Integer
+3	Double	Double
+4	Date	Date
+\.
+
+
+--
+-- TOC entry 1942 (class 0 OID 24804)
+-- Dependencies: 171
+-- Data for Name: external_system; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY external_system (id, name) FROM stdin;
+1	External System 01
+5	External System 022
+6	External System 0333
+7	External System 04
+\.
+
+
+--
+-- TOC entry 1941 (class 0 OID 24796)
+-- Dependencies: 170
+-- Data for Name: mapping_scheme; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY mapping_scheme (id, name, app_spec_id, scoring_scheme_id) FROM stdin;
+1	Mapping Scheme 01	1	1
+8	tin tran mapping scheme	2	2
+10	drtgsdrg	2	2
+5	tin tran -scheme	1	1
+\.
+
+
+--
+-- TOC entry 1944 (class 0 OID 24823)
+-- Dependencies: 173
+-- Data for Name: mapping_scheme_rule; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY mapping_scheme_rule (id, scoring_rule_id, mapping_scheme_id) FROM stdin;
+1	1	1
+6	3	1
+8	2	1
+\.
+
+
+--
+-- TOC entry 1945 (class 0 OID 24828)
+-- Dependencies: 174
+-- Data for Name: mapping_scheme_rule_case; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY mapping_scheme_rule_case (id, mapping_rule_id, condition_expression, scoring_rule_case_id) FROM stdin;
+9	1	Age > 80	21
+10	1	Age > 24 and Age < 81	20
+1	1	Age > 17 and Age < 26	19
+11	6	Marital == 'Single'	24
+12	6	Marital == 'Married'	25
+14	6	Marital == 'Unknowm'	26
+5	8	Gender == 'Male'	22
+6	8	Gender == 'Female'	23
+\.
+
+
+--
+-- TOC entry 1938 (class 0 OID 16629)
+-- Dependencies: 163
+-- Data for Name: scoring_factor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY scoring_factor (id, name) FROM stdin;
+27	Age
+28	Gender
+29	Marital status
+30	New Factor
+31	Age 21
+\.
+
+
+--
+-- TOC entry 1939 (class 0 OID 16634)
+-- Dependencies: 164
+-- Data for Name: scoring_rule; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY scoring_rule (id, scheme_id, factor_id, weight) FROM stdin;
+2	1	28	0.5
+1	1	27	0.080000000000000002
+5	2	27	0.80000000000000004
+6	1	31	0.59999999999999998
+7	1	30	0.5
+4	2	28	0.02
+3	1	29	1
+\.
+
+
+--
+-- TOC entry 1940 (class 0 OID 16639)
+-- Dependencies: 165
+-- Data for Name: scoring_rule_case; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY scoring_rule_case (id, rule_id, factor_choice, score) FROM stdin;
+19	1	18-25	10
+20	1	25-80	20
+21	1	> 80	5
+22	2	Male	10
+23	2	Female	9
+24	3	Single	8
+25	3	Married	9
+26	3	Unknown	5
+\.
+
+
+--
+-- TOC entry 1937 (class 0 OID 16621)
+-- Dependencies: 162
+-- Data for Name: scoring_scheme; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY scoring_scheme (id, name) FROM stdin;
+1	Scheme 01
+2	Scheme 02
+\.
+
+
+--
+-- TOC entry 1918 (class 2606 OID 16633)
+-- Dependencies: 163 163
+-- Name: Factor_Primary_Key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY scoring_factor
+    ADD CONSTRAINT "Factor_Primary_Key" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1934 (class 2606 OID 24853)
+-- Dependencies: 180 180
+-- Name: PrimaryKeyApplicationFieldSpecification; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY application_field_specification
+    ADD CONSTRAINT "PrimaryKeyApplicationFieldSpecification" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1928 (class 2606 OID 24822)
+-- Dependencies: 172 172
+-- Name: PrimaryKeyApplicationSpecification; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY application_specification
+    ADD CONSTRAINT "PrimaryKeyApplicationSpecification" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1936 (class 2606 OID 24861)
+-- Dependencies: 181 181
+-- Name: PrimaryKeyDataType; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY data_type
+    ADD CONSTRAINT "PrimaryKeyDataType" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1926 (class 2606 OID 24814)
+-- Dependencies: 171 171
+-- Name: PrimaryKeyExternalSystem; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY external_system
+    ADD CONSTRAINT "PrimaryKeyExternalSystem" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1924 (class 2606 OID 24803)
+-- Dependencies: 170 170
+-- Name: PrimaryKeyMappingScheme; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY mapping_scheme
+    ADD CONSTRAINT "PrimaryKeyMappingScheme" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1930 (class 2606 OID 24827)
+-- Dependencies: 173 173
+-- Name: PrimaryKeyMappingSchemeRule; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY mapping_scheme_rule
+    ADD CONSTRAINT "PrimaryKeyMappingSchemeRule" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1932 (class 2606 OID 24835)
+-- Dependencies: 174 174
+-- Name: PrimaryKeyMappingSchemeRuleCase; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY mapping_scheme_rule_case
+    ADD CONSTRAINT "PrimaryKeyMappingSchemeRuleCase" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1916 (class 2606 OID 16625)
+-- Dependencies: 162 162
+-- Name: Primary_Key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY scoring_scheme
+    ADD CONSTRAINT "Primary_Key" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1920 (class 2606 OID 16638)
+-- Dependencies: 164 164
+-- Name: Rule_Primary_Key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY scoring_rule
+    ADD CONSTRAINT "Rule_Primary_Key" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1922 (class 2606 OID 16643)
+-- Dependencies: 165 165
+-- Name: Rulecase_Primary_Key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY scoring_rule_case
+    ADD CONSTRAINT "Rulecase_Primary_Key" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1952 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2012-12-13 17:43:14
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			
+			<h:form id="extSystForm">
+				<h2>#{msg['scoring.extSyst.pageTitle']}</h2>
+				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+				<p:dataTable var="extSys" value="#{externalSystemBean.extSystemList}" paginator="true" rows="5" style="width:90%"
+					selectionMode="single" selection="#{externalSystemBean.selectedExtSys}" rowKey="#{extSys.id}">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{extSys.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="External System Name" />
+						</f:facet>
+						<h:outputText value="#{extSys.name}" />
+					</p:column>
+					
+					 <f:facet name="footer">
+					 	<p:commandButton value="Create new External System" actionListener="#{externalSystemBean.showCreateExtSystem}"
+					 		update=":createExtSysForm" oncomplete="dlgExtSystem.show()" />
+					 	
+					 	<p:commandButton value="Edit External System" actionListener="#{externalSystemBean.showEditExtSystem}" 
+					 		update=":createExtSysForm" oncomplete="dlgExtSystem.show()" />
+					 	
+					 	<p:commandButton id="deleteExtSysButton" value="Delete External System" icon="" 
+					 		actionListener="#{externalSystemBean.deleteExtSystem}"
+					 		update=":extSystForm"/>
+                    </f:facet>
+				</p:dataTable>
+			
+			</h:form>
+			
+			<h:form id="createExtSysForm">
+				<p:dialog header="Create new Factor" widgetVar="dlgExtSystem" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":extSystForm" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid columns="3">
+						<h:outputText value="#{msg['scoring.extSyst.name']}: " />
+						<p:inputText id="extSysName" value="#{externalSystemBean.externalSystem.name}" required="true"></p:inputText>
+						<p:message for="extSysName"></p:message>
+						<h:outputText value=" " />
+						<p:commandButton action="#{externalSystemBean.saveExtSystem}" value="#{msg['scoring.extSyst.save']}"
+							update=":createExtSysForm" oncomplete="dlgExtSystem.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

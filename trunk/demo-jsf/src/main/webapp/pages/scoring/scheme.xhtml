@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			
+			<h:form id="scoringSchemeForm">
+	
+				<h2>#{msg['scoring.scheme.pageTitle']}</h2>
+				
+				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+				
+				<p:dataTable var="scheme" value="#{scoringSchemeBean.schemeList}" paginator="true" rows="5" style="width:90%"
+					selectionMode="single" selection="#{scoringSchemeBean.selectedScheme}" rowKey="#{scheme.id}">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{scheme.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Scheme Name" />
+						</f:facet>
+						<h:outputText value="#{scheme.name}" />
+					</p:column>
+					
+					 <f:facet name="footer">
+					 
+					 	<p:commandButton value="Create new Scheme" type="button" onclick="dlgScheme.show()" />
+					 	<p:commandButton id="viewButton" value="View" icon="ui-icon-search" 
+					 		update=":scoringSchemeForm:viewScheme" oncomplete="dlgViewScheme.show()"/>
+					 	<p:commandButton id="deleteButton" value="Delete Scheme" icon="" 
+					 		type="button" onclick="cdDeleteScheme.show()"/>
+					 	<p:commandButton id="viewRuleButton" value="View and Edit Scheme" icon="ui-icon-search" 
+					 		actionListener="#{scoringSchemeBean.showEditScheme}"
+					 		update=":ruleList" oncomplete="dlgViewRuleList.show()"/>
+					 		
+                    </f:facet>
+                    
+				</p:dataTable>
+		
+		
+				<p:dialog id="viewScheme" header="View Scheme" widgetVar="dlgViewScheme" modal="true" width="400" height="150">
+					<br></br>
+					<h:panelGrid id="viewSchemePanel" columns="2">
+						<h:outputText value="#{msg['scoring.scheme.name']}: " />
+						<h:outputText value="#{scoringSchemeBean.selectedScheme.name}"/>
+					</h:panelGrid>
+				</p:dialog>
+				
+				<p:confirmDialog message="Are you sure you want to delete selected scheme?" 
+					header="Delete Scheme Confirmation" severity="alert" widgetVar="cdDeleteScheme">
+					<p:commandButton value="Yes Sure" actionListener="#{scoringSchemeBean.deleteScheme}"
+					 		update=":scoringSchemeForm" oncomplete="cdDeleteScheme.hide()"/>
+					<p:commandButton value="Not Yet" onclick="cdDeleteScheme.hide();" type="button" />
+				</p:confirmDialog>
+				
+			</h:form>
+			
+			<h:form id="createSchemeForm">
+				<p:dialog header="Create new Scheme" widgetVar="dlgScheme" width="500" height="200" modal="true">
+					<p:ajax event="close" update=":scoringSchemeForm" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid id="scoringSchemePanel" columns="3">
+						<h:outputText value="#{msg['scoring.scheme.name']}: " />
+						<p:inputText id="schemeName" value="#{scoringSchemeBean.scheme.name}" required="true"></p:inputText>
+						<p:message for="schemeName"></p:message>
+						<h:outputText value=" " />
+						<p:commandButton action="#{scoringSchemeBean.saveScheme}" value="#{msg['scoring.scheme.save']}"
+							update=":createSchemeForm" oncomplete="dlgScheme.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+				
+			
+			<p:dialog id="ruleList" header="Rule List of Scheme: #{scoringSchemeBean.selectedScheme.name}" 
+				widgetVar="dlgViewRuleList" modal="true" appendToBody="true">
+				<p:ajax event="close" update=":scoringSchemeForm" />
+				<h:form id="scoringRuleListForm">
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					
+					<h:panelGrid columns="4">
+						<h:outputText value="#{msg['scoring.scheme.name']}: " />
+						<p:inputText id="schemeName" value="#{scoringSchemeBean.selectedScheme.name}" required="true"></p:inputText>
+						<p:commandButton action="#{scoringSchemeBean.updateScheme}" value="#{msg['scoring.scheme.update']}"
+							update=":scoringRuleListForm" oncomplete="dlgViewRuleList.show()"></p:commandButton>
+						<p:message for="schemeName"></p:message>
+						
+					</h:panelGrid>
+					
+					<h:panelGrid id="viewRuleListPanel" columns="2">
+						
+						<p:dataTable var="rule" value="#{scoringSchemeBean.ruleList}" paginator="true" rows="4" 
+							paginatorPosition="bottom"
+							selectionMode="single" selection="#{scoringSchemeBean.selectedRule}" rowKey="#{rule.id}"
+							>
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="ID" />
+								</f:facet>
+								<h:outputText value="#{rule.id}" />
+							</p:column>
+							<p:column style="width:300px;">
+								<f:facet name="header">
+									<h:outputText value="Scheme ID" />
+								</f:facet>
+								<h:outputText value="#{rule.scheme.name}" />
+							</p:column>
+							<p:column style="width:300px;">
+								<f:facet name="header">
+									<h:outputText value="Factor ID" />
+								</f:facet>
+								<h:outputText value="#{rule.factor.name}" />
+							</p:column>
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="Weight" />
+								</f:facet>
+								<h:outputText value="#{rule.weight}" />
+							</p:column>
+							
+							 <f:facet name="footer">
+							 	<p:commandButton value="Create new Rule" actionListener="#{scoringSchemeBean.showCreateRule}" onclick="dlgRule.show()" />
+							 	<p:commandButton value="Edit Rule" actionListener="#{scoringSchemeBean.showEditRule}" update=":createRuleForm" oncomplete="dlgRule.show()" />
+							 	<p:commandButton id="deleteRuleButton" value="Delete Rule" 
+							 		actionListener="#{scoringSchemeBean.deleteRule}" 
+									update=":scoringRuleListForm" oncomplete="dlgViewRuleList.show()"/>
+							 	<p:commandButton id="viewRuleCaseButton" value="View List of Rule Case" icon="ui-icon-search" 
+						 			update=":scoringRuleCaseListForm" oncomplete=""/>
+		                    </f:facet>
+						</p:dataTable>
+					</h:panelGrid>
+					
+					<p:confirmDialog message="Are you sure you want to delete selected rule" 
+						header="Delete Rule Confirmation" severity="alert" widgetVar="cdDeleteRule">
+						<p:commandButton value="Yes Sure" actionListener="#{scoringSchemeBean.deleteRule}" 
+							update=":scoringRuleListForm" oncomplete="dlgViewRuleList.show()"/>
+						<p:commandButton value="Not Yet" onclick="cdDeleteRule.hide();" type="button" />
+					</p:confirmDialog>
+				
+				</h:form>
+				
+				<h:form id="scoringRuleCaseListForm">
+					<h3>LIST OF RULE CASE</h3>
+					<p:messages showSummary="false" showDetail="true"></p:messages>
+					<h:panelGrid id="viewRuleCaseListPanel" columns="2">
+						
+						<p:dataTable var="ruleCase" value="#{scoringSchemeBean.ruleCaseList}" paginator="true" rows="3" paginatorPosition="bottom"
+							selectionMode="single" selection="#{scoringSchemeBean.selectedRuleCase}" rowKey="#{ruleCase.id}">
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="ID" />
+								</f:facet>
+								<h:outputText value="#{ruleCase.id}" />
+							</p:column>
+							
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="RULE ID" />
+								</f:facet>
+								<h:outputText value="#{ruleCase.rule.id}" />
+							</p:column>
+							
+							<p:column style="width:200px;">
+								<f:facet name="header">
+									<h:outputText value="FACTOR CHOICE" />
+								</f:facet>
+								<h:outputText value="#{ruleCase.factorChoice}" />
+							</p:column>
+							
+							<p:column style="width:200px;">
+								<f:facet name="header">
+									<h:outputText value="SCORE" />
+								</f:facet>
+								<h:outputText value="#{ruleCase.score}" />
+							</p:column>
+							<f:facet name="footer">
+							 	<p:commandButton value="Create new Rule Case" actionListener="#{scoringSchemeBean.showCreateRuleCase}"
+							 		update=":createRuleCaseForm" oncomplete="dlgRuleCase.show()" />
+							 	<p:commandButton value="Edit Rule Case" actionListener="#{scoringSchemeBean.showEditRuleCase}" 
+							 		update=":createRuleCaseForm" oncomplete="dlgRuleCase.show()" />
+							 	<p:commandButton id="deleteRuleCaseButton" value="Delete Rule Case" icon="" 
+								 		actionListener="#{scoringSchemeBean.deleteRuleCase}" 
+								 		update=":scoringRuleCaseListForm" />
+								 		
+		                    </f:facet>
+			                    
+						</p:dataTable>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+			
+			
+			
+			<h:form id="createRuleForm">
+				<p:dialog header="Create new Rule" widgetVar="dlgRule" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":scoringRuleListForm:viewRuleListPanel" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid id="scoringRulePanel" columns="4">
+						
+						<h:outputText value="#{msg['scoring.rule.factorId']}: " />
+						<p:selectOneMenu id="factor" value="#{scoringSchemeBean.factorId}" required="true">
+							<f:selectItem itemLabel="Select a Factor" itemValue="" />
+							<f:selectItems value="#{scoringFactorBean.factorList}" var="factor" itemLabel="#{factor.name}" itemValue="#{factor.id}"/>
+						</p:selectOneMenu>
+						<p:commandButton type="button" value="+" onclick="dlgFactor.show()"></p:commandButton>
+						<p:message for="factor"></p:message>
+						
+						
+						<h:outputText value="#{msg['scoring.rule.weight']}: " />
+						<p:inputText id="ruleWeight" value="#{scoringSchemeBean.rule.weight}" required="true"></p:inputText>
+						<h:outputText value=" " />
+						<p:message for="ruleWeight"></p:message>
+						
+						<h:outputText value=" " />
+						<p:commandButton action="#{scoringSchemeBean.saveRule}" value="#{msg['scoring.rule.save']}"
+							update=":createRuleForm" oncomplete="dlgRule.show()"></p:commandButton>
+						
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="createFactorForm">
+				<p:dialog header="Create new Factor" widgetVar="dlgFactor" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":createRuleForm" oncomplete="dlgRule.show()"/>
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid id="scoringFactorPanel02" columns="3">
+						<h:outputText value="#{msg['scoring.factor.name']}: " />
+						<p:inputText id="factorName" value="#{scoringFactorBean.factor.name}" required="true"></p:inputText>
+						<p:message for="factorName"></p:message>
+						<h:outputText value=" " />
+						<p:commandButton action="#{scoringFactorBean.saveFactor}" value="#{msg['scoring.factor.save']}"
+							update=":createFactorForm" oncomplete="dlgFactor.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="createRuleCaseForm">
+				<p:dialog header="Create new Rule Case" widgetVar="dlgRuleCase" width="550" height="250">
+					<p:ajax event="close" update=":scoringRuleCaseListForm:viewRuleCaseListPanel" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid id="scoringRuleCasePanel" columns="3">
+						
+						<h:outputText value="#{msg['scoring.ruleCase.factorChoice']}: " />
+						<p:inputText id="factorChoice" value="#{scoringSchemeBean.ruleCase.factorChoice}" required="true"></p:inputText>
+						<p:message for="factorChoice"></p:message>
+
+						
+						<h:outputText value="#{msg['scoring.ruleCase.score']}: " />
+						<p:inputText id="score" value="#{scoringSchemeBean.ruleCase.score}" required="true"></p:inputText>
+						<p:message for="score"></p:message>
+						
+						<h:outputText value=" " />
+						<p:commandButton action="#{scoringSchemeBean.saveRuleCase}" value="#{msg['scoring.ruleCase.save']}"
+							update=":createRuleCaseForm" oncomplete="dlgRuleCase.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<p:dialog header="Evaluated Credit Score" widgetVar="dlgShowCreditScore" width="550" height="250">
+				<h:panelGrid columns="3">
+					
+					<h:outputText value="#{msg['scoring.evaluate.name']}: " />
+					<h:outputText value="#{scoringSchemeBean.evaluatedCreditScore}" />
+					
+				</h:panelGrid>
+			</p:dialog>
+				
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

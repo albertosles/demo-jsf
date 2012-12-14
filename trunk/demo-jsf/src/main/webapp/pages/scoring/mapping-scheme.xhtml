@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			
+			<h:form id="mappingSchemeForm">
+				<h2>#{msg['mapping.scheme.pageTitle']}</h2>
+				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+				<p:dataTable var="mapScheme" value="#{mappingSchemeBean.mappingSchemeList}" paginator="true" rows="10" style="width:90%"
+					selectionMode="single" selection="#{mappingSchemeBean.selectedMapScheme}" rowKey="#{mapScheme.id}">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{mapScheme.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Mapping Scheme Name" />
+						</f:facet>
+						<h:outputText value="#{mapScheme.name}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Application Specification Name" />
+						</f:facet>
+						<h:outputText value="#{mapScheme.appSpec.name}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Scheme Name" />
+						</f:facet>
+						<h:outputText value="#{mapScheme.scheme.name}" />
+					</p:column>
+					
+					 <f:facet name="footer">
+					 	<p:commandButton value="Create new Mapping Scheme" type="button" onclick="dlgMappingScheme.show()" />
+					 	
+					 	<p:commandButton value="Delete Mapping Scheme" icon="" 
+					 		actionListener="#{mappingSchemeBean.deleteMappingScheme}"
+					 		update=":mappingSchemeForm"/>
+					 		
+					 	<p:commandButton value="View and Edit Mapping Scheme" icon="ui-icon-search" 
+					 		actionListener="#{mappingSchemeBean.showEditMappingScheme}"
+					 		update=":mappingRuleList" oncomplete="dlgViewMappingRuleList.show()"/>
+                    </f:facet>
+				</p:dataTable>
+			
+			</h:form>
+			
+			<h:form id="createMappingSchemeForm">
+				<p:dialog header="Create new Mapping Scheme" widgetVar="dlgMappingScheme" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":mappingSchemeForm" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid columns="3">
+						<h:outputText value="#{msg['mapping.scheme.name']}: " />
+						<p:inputText id="schemeName" value="#{mappingSchemeBean.mappingScheme.name}" required="true"></p:inputText>
+						<p:message for="schemeName"></p:message>
+						
+						<h:outputText value="#{msg['mapping.scheme.scoringScheme']}: " />
+						<p:selectOneMenu id="scoringScheme" value="#{mappingSchemeBean.scoringSchemeId}" required="true">
+							<f:selectItem itemLabel="Select a Scoring Scheme" itemValue="" />
+							<f:selectItems value="#{mappingSchemeBean.schemeList}" var="scheme" itemLabel="#{scheme.name}" itemValue="#{scheme.id}"/>
+						</p:selectOneMenu>
+						<p:message for="scoringScheme"></p:message>
+						
+						<h:outputText value="#{msg['mapping.scheme.appSpecs']}: " />
+						<p:selectOneMenu id="appSpecs" value="#{mappingSchemeBean.appSpecsId}" required="true">
+							<f:selectItem itemLabel="Select an App Specs" itemValue="" />
+							<f:selectItems value="#{mappingSchemeBean.appSpecsList}" var="apSpecs" itemLabel="#{apSpecs.name}" itemValue="#{apSpecs.id}"/>
+						</p:selectOneMenu>
+						<p:message for="appSpecs"></p:message>
+						
+						<h:outputText value=" " />
+						<p:commandButton action="#{mappingSchemeBean.saveMappingScheme}" value="#{msg['mapping.scheme.save']}"
+							update=":createMappingSchemeForm" oncomplete="dlgMappingScheme.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			
+			
+			
+			<p:dialog id="mappingRuleList" header="Mapping Rule List of Scheme: #{mappingSchemeBean.selectedMapScheme.name}" 
+				widgetVar="dlgViewMappingRuleList" modal="true">
+				<p:ajax event="close" update=":mappingSchemeForm" />
+				<h:form id="mappingRuleListForm">
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					
+					<h:panelGrid columns="3">
+						<h:outputText value="#{msg['scoring.scheme.name']}: " />
+						<p:inputText id="schemeName" value="#{mappingSchemeBean.selectedMapScheme.name}" required="true"></p:inputText>
+						<p:message for="schemeName"></p:message>
+						
+						<h:outputText value="#{msg['mapping.scheme.scoringScheme']}: " />
+						<p:selectOneMenu id="scoringScheme" value="#{mappingSchemeBean.scoringSchemeId}" required="true">
+							<f:selectItem itemLabel="Select a Scoring Scheme" itemValue="" />
+							<f:selectItems value="#{mappingSchemeBean.schemeList}" var="scheme" itemLabel="#{scheme.name}" itemValue="#{scheme.id}"/>
+						</p:selectOneMenu>
+						<p:message for="scoringScheme"></p:message>
+						
+						<h:outputText value="#{msg['mapping.scheme.appSpecs']}: " />
+						<p:selectOneMenu id="appSpecs" value="#{mappingSchemeBean.appSpecsId}" required="true">
+							<f:selectItem itemLabel="Select an App Specs" itemValue="" />
+							<f:selectItems value="#{mappingSchemeBean.appSpecsList}" var="apSpecs" itemLabel="#{apSpecs.name}" itemValue="#{apSpecs.id}"/>
+						</p:selectOneMenu>
+						<p:message for="appSpecs"></p:message>
+						
+						<h:outputText value=" " />
+						<p:commandButton action="#{mappingSchemeBean.updateMappingScheme}" value="#{msg['scoring.scheme.update']}"
+							update=":mappingRuleListForm" oncomplete="dlgViewMappingRuleList.show()"></p:commandButton>
+						
+					</h:panelGrid>
+					
+					<h:panelGrid id="viewMappingRuleListPanel" columns="2">
+						
+						<p:dataTable var="mapRule" value="#{mappingSchemeBean.mappingRuleList}" paginator="true" rows="10" 
+							paginatorPosition="bottom"
+							selectionMode="single" selection="#{mappingSchemeBean.selectedMapRule}" rowKey="#{mapRule.id}">
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="ID" />
+								</f:facet>
+								<h:outputText value="#{mapRule.id}" />
+							</p:column>
+							<p:column style="width:300px;">
+								<f:facet name="header">
+									<h:outputText value="Factor Name" />
+								</f:facet>
+								<h:outputText value="#{mapRule.rule.factor.name}" />
+							</p:column>
+							<p:column style="width:300px;">
+								<f:facet name="header">
+									<h:outputText value="Mapping Scheme Name" />
+								</f:facet>
+								<h:outputText value="#{mapRule.mappingScheme.name}" />
+							</p:column>
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="Weight" />
+								</f:facet>
+								<h:outputText value="#{mapRule.rule.weight}" />
+							</p:column>
+							
+							 <f:facet name="footer">
+							 	<p:commandButton value="Create new Mapping Rule" actionListener="#{mappingSchemeBean.showCreateMappingRule}" update=":createMappingRuleForm" oncomplete="dlgMappingRule.show()" />
+							 	<p:commandButton value="Edit Mapping Rule" actionListener="#{mappingSchemeBean.showEditMappingRule}" update=":createMappingRuleForm" oncomplete="dlgMappingRule.show()" />
+							 	<p:commandButton value="Delete Mapping Rule" actionListener="#{mappingSchemeBean.deleteMappingRule}" 
+									update=":mappingRuleListForm" oncomplete="dlgViewMappingRuleList.show()"/>
+							 	<p:commandButton id="viewRuleCaseButton" value="View List of Mapping Rule Case" icon="ui-icon-search" 
+						 			update=":mappingRuleCaseListForm" oncomplete="dlgViewMappingRuleCaseList.show()"/>
+		                    </f:facet>
+						</p:dataTable>
+					</h:panelGrid>
+				
+				</h:form>
+				
+			</p:dialog>
+			
+			<h:form id="createMappingRuleForm">
+				<p:dialog header="Create new Mapping Rule" widgetVar="dlgMappingRule" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":mappingRuleListForm:viewMappingRuleListPanel" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid columns="3">
+						<h:outputText value="#{msg['mapping.rule.scoringRule']}: " />
+						<p:selectOneMenu id="scoringRule" value="#{mappingSchemeBean.scoringRuleId}" required="true">
+							<f:selectItem itemLabel="----Select a Scoring Rule----" itemValue="" />
+							<f:selectItems value="#{mappingSchemeBean.scoringRuleList}" var="rule" itemLabel="#{rule.factor.name}" itemValue="#{rule.id}"/>
+						</p:selectOneMenu>
+						<p:message for="scoringRule"></p:message>
+						<h:outputText value=" " />
+						<p:commandButton action="#{mappingSchemeBean.saveMappingRule}" value="#{msg['scoring.rule.save']}"
+							update=":createMappingRuleForm" oncomplete="dlgMappingRule.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			
+			<p:dialog id="mappingRuleCaseList" header="Mapping Rule Case List of RULE: #{mappingSchemeBean.selectedMapRule.rule.factor.name}" 
+				widgetVar="dlgViewMappingRuleCaseList" modal="true" appendToBody="true">
+				<h:form id="mappingRuleCaseListForm">
+					<h3>LIST OF MAPPING RULE CASE</h3>
+					<p:messages showSummary="false" showDetail="true"></p:messages>
+					<h:panelGrid id="viewMappingRuleCaseListPanel" columns="2">
+						
+						<p:dataTable var="mapRuleCase" value="#{mappingSchemeBean.mappingRuleCaseList}" paginator="true" rows="7" paginatorPosition="bottom"
+							selectionMode="single" selection="#{mappingSchemeBean.selectedMapRuleCase}" rowKey="#{mapRuleCase.id}">
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="ID" />
+								</f:facet>
+								<h:outputText value="#{mapRuleCase.id}" />
+							</p:column>
+							
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="MAPPING RULE ID" />
+								</f:facet>
+								<h:outputText value="#{mapRuleCase.mappingSchemeRule.id}" />
+							</p:column>
+							
+							<p:column style="width:200px;">
+								<f:facet name="header">
+									<h:outputText value="FACTOR CHOICE" />
+								</f:facet>
+								<h:outputText value="#{mapRuleCase.scoringRuleCase.factorChoice}" />
+							</p:column>
+							
+							<p:column style="width:200px;">
+								<f:facet name="header">
+									<h:outputText value="SCORE" />
+								</f:facet>
+								<h:outputText value="#{mapRuleCase.scoringRuleCase.score}" />
+							</p:column>
+							
+							<p:column style="width:200px;">
+								<f:facet name="header">
+									<h:outputText value="CONDITION EXPRESSION" />
+								</f:facet>
+								<h:outputText value="#{mapRuleCase.conditionExpression}" />
+							</p:column>
+							<f:facet name="footer">
+							 	<p:commandButton value="Create new Rule Case" actionListener="#{mappingSchemeBean.showCreateMappingRuleCase}"
+							 		update=":createMappingRuleCaseForm" oncomplete="dlgMappingRuleCase.show()" />
+							 	<p:commandButton value="Edit Mapping Rule Case" actionListener="#{mappingSchemeBean.showEditMappingRuleCase}" 
+							 		update=":createMappingRuleCaseForm" oncomplete="dlgMappingRuleCase.show()" />
+							 	<p:commandButton value="Delete Mapping Rule Case" icon="" 
+								 		actionListener="#{mappingSchemeBean.deleteMappingRuleCase}" 
+								 		update=":mappingRuleCaseListForm" />
+								 		
+		                    </f:facet>
+			                    
+						</p:dataTable>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+			
+			<h:form id="createMappingRuleCaseForm">
+				<p:dialog header="Create new Mapping Rule Case" widgetVar="dlgMappingRuleCase" width="550" height="250">
+					<p:ajax event="close" update=":mappingRuleCaseListForm" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid id="mappingRuleCasePanel" columns="3">
+						
+						<h:outputText value="#{msg['mapping.ruleCase.scoringRuleCase']}: " />
+						<p:selectOneMenu id="scoringRuleCase" value="#{mappingSchemeBean.scoringRuleCaseId}" required="true">
+							<f:selectItem itemLabel="----Select a Scoring Rule Case----" itemValue="" />
+							<f:selectItems value="#{mappingSchemeBean.scoringRuleCaseList}" var="ruleCase" itemLabel="#{ruleCase.factorChoice}" itemValue="#{ruleCase.id}"/>
+						</p:selectOneMenu>
+						<p:message for="scoringRuleCase"></p:message>
+						
+						
+						<h:outputText value="#{msg['mapping.ruleCase.condExpression']}: " />
+						<p:inputText id="condiExpress" value="#{mappingSchemeBean.mapRuleCase.conditionExpression}" required="true"></p:inputText>
+						<p:message for="condiExpress"></p:message>
+
+						<h:outputText value=" " />
+						<p:commandButton action="#{mappingSchemeBean.saveMappingRuleCase}" value="#{msg['scoring.ruleCase.save']}"
+							update=":createMappingRuleCaseForm" oncomplete="dlgMappingRuleCase.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

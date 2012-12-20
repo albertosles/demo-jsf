@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.demo.jsf.dto.LazyFactorDataModel;
 import com.demo.jsf.model.ScoringFactor;
 import com.demo.jsf.services.FactorService;
 import com.demo.jsf.services.RuleService;
@@ -23,9 +24,12 @@ public class ScoringFactorBean implements Serializable {
 	
 	private ScoringFactor selectedFactor;
 	
+	private LazyFactorDataModel factorDataModel;
+	
 	@PostConstruct
 	public void init() {
 		factor = new ScoringFactor();
+		factorDataModel = new LazyFactorDataModel(factorService);
 	}
 	
 	public String saveFactor() {
@@ -59,10 +63,10 @@ public class ScoringFactorBean implements Serializable {
 		
 	}
 	
-	public List<ScoringFactor> getFactorList() {
-		return factorService.getFactorList();
+	public LazyFactorDataModel getFactorDataModel() {
+		return factorDataModel;
 	}
-	
+
 	/////------------/////
 	public FactorService getFactorService() {
 		return factorService;

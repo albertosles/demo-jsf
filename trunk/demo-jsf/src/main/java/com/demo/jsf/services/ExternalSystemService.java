@@ -17,9 +17,11 @@ public interface ExternalSystemService {
 	void delete(Long extSystemId);
 	
 	List<ExternalSystem> getExtSystemList();
+	List<ExternalSystem> getExtSystemList(int first, int pageSize);
 	
 	ExternalSystem findByName(String name);
 	
 	boolean isNameExist(String name);
+	int count();
 	
 }

@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.dao.ApplicationFieldSpecificationDao;
 import com.demo.jsf.model.ApplicationFieldSpecification;
 
 @Service(ApplicationFieldSpecificationService.SERVICE_ID)
+@Transactional
 public class ApplicationFieldSpecificationServiceImpl implements ApplicationFieldSpecificationService, Serializable {
 	
 	@Autowired
@@ -63,12 +65,17 @@ public class ApplicationFieldSpecificationServiceImpl implements ApplicationFiel
 	}
 	
 	@Override
-	public long countByDataTypeId(Long dataTypeId) {
+	public List<ApplicationFieldSpecification> getAppFieldSpecList(Long appSpecId, int first, int pageSize) {
+		return appFieldSpecsDao.getAppFieldSpecList(appSpecId, first, pageSize);
+	}
+	
+	@Override
+	public int countByDataTypeId(Long dataTypeId) {
 		return appFieldSpecsDao.countByDataTypeId(dataTypeId);
 	}
 	
 	@Override
-	public long countByAppSpecId(Long appSpecId) {
+	public int countByAppSpecId(Long appSpecId) {
 		return appFieldSpecsDao.countByAppSpecId(appSpecId);
 	}
 }

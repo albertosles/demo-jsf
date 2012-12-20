@@ -8,6 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.LazyDataModel;
+
+import com.demo.jsf.dto.LazyRuleCaseDataModel;
+import com.demo.jsf.dto.LazyRuleDataModel;
+import com.demo.jsf.dto.LazySchemeDataModel;
 import com.demo.jsf.model.ScoringFactor;
 import com.demo.jsf.model.ScoringRule;
 import com.demo.jsf.model.ScoringRuleCase;
@@ -21,10 +26,6 @@ public class ScoringSchemeBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private static final String HOMEPAGE = "homepage";
-
-	private static final String LOGIN = "login";
-	
 	private SchemeService schemeService;
 	
 	private RuleService ruleService;
@@ -47,11 +48,21 @@ public class ScoringSchemeBean implements Serializable {
 	
 	private Long factorId;
 	
+	private LazyDataModel<ScoringScheme> schemeDataModel;
+	
+	private LazyRuleDataModel ruleDataModel;
+	
+	private LazyRuleCaseDataModel ruleCaseDataModel;
+	
 	@PostConstruct
 	public void init() {
+		
 		scheme = new ScoringScheme();
 		rule = new ScoringRule();
 		ruleCase = new ScoringRuleCase();
+		schemeDataModel = new LazySchemeDataModel(schemeService);
+		ruleDataModel = new LazyRuleDataModel(ruleService);
+		ruleCaseDataModel = new LazyRuleCaseDataModel(ruleCaseService);
 	}
 	
 	public String saveScheme() {
@@ -189,40 +200,32 @@ public class ScoringSchemeBean implements Serializable {
 	public void deleteRuleCase() {
 
 		if(selectedRuleCase == null) return;
-		
 		ruleCaseService.delete(selectedRuleCase.getId());
 		selectedRuleCase = null;
 		FacesMessage msg = new FacesMessage("Successfull", "The Rule Case has been deleted.");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-		
 	}
 	
 	
-	public int getEvaluatedCreditScore() {
-		
-		return 10;
-	}
+//	public List<ScoringScheme> getSchemeList() {
+//		return schemeService.getSchemeList();
+//	}
 	
-	public List<ScoringScheme> getSchemeList() {
-		return schemeService.getSchemeList();
-	}
+//	public List<ScoringRule> getRuleList() {
+//		if(selectedScheme != null) {
+//			return ruleService.getRuleList(selectedScheme.getId());
+//		}
+//		return Collections.emptyList();
+//		
+//	}
 	
-	public List<ScoringRule> getRuleList() {
-		if(selectedScheme != null) {
-			return ruleService.getRuleList(selectedScheme.getId());
-		}
-//		return ruleService.getRuleList();
-		return Collections.emptyList();
-		
-	}
-	
-	public List<ScoringRuleCase> getRuleCaseList() {
-		if(selectedRule != null) {
-			List<Long> emtyList = Collections.emptyList();
-			return ruleCaseService.getRuleCaseList(selectedRule.getId(), emtyList);
-		}
-		return Collections.emptyList();
-	}
+//	public List<ScoringRuleCase> getRuleCaseList() {
+//		if(selectedRule != null) {
+//			List<Long> emtyList = Collections.emptyList();
+//			return ruleCaseService.getRuleCaseList(selectedRule.getId(), emtyList);
+//		}
+//		return Collections.emptyList();
+//	}
 	
 	public SchemeService getSchemeService() {
 		return schemeService;
@@ -312,12 +315,27 @@ public class ScoringSchemeBean implements Serializable {
 		this.factorId = factorId;
 	}
 
-	public String gotoLogin() {
-		return LOGIN;
+	public LazyDataModel<ScoringScheme> getSchemeDataModel() {
+		return schemeDataModel;
 	}
-	
-	public String gotoHomepage() {
-		return HOMEPAGE;
+
+	public void setSchemeDataModel(LazySchemeDataModel schemeDataModel) {
+		this.schemeDataModel = schemeDataModel;
 	}
-	
+
+	public LazyDataModel<ScoringRule> getRuleDataModel() {
+		if (selectedScheme != null) {
+			ruleDataModel.setSchemeId(selectedScheme.getId());
+		}
+		return ruleDataModel;
+	}
+
+	public LazyRuleCaseDataModel getRuleCaseDataModel() {
+		
+		if(selectedRule != null) {
+			ruleCaseDataModel.setRuleId(selectedRule.getId());
+		}
+		return ruleCaseDataModel;
+	}
+
 }

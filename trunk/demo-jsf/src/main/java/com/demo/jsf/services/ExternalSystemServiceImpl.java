@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.dao.ExternalSystemDao;
 import com.demo.jsf.model.ExternalSystem;
 
 @Service(ExternalSystemService.SERVICE_ID)
+@Transactional
 public class ExternalSystemServiceImpl implements ExternalSystemService, Serializable {
 	
 	@Autowired
@@ -43,6 +45,11 @@ public class ExternalSystemServiceImpl implements ExternalSystemService, Seriali
 	}
 	
 	@Override
+	public List<ExternalSystem> getExtSystemList(int first, int pageSize) {
+		return externalSystemDao.getList(first, pageSize);
+	}
+	
+	@Override
 	public ExternalSystem findByName(String name) {
 		return externalSystemDao.findByName(name);
 	}
@@ -52,4 +59,8 @@ public class ExternalSystemServiceImpl implements ExternalSystemService, Seriali
 		return externalSystemDao.isNameExist(name);
 	}
 
+	@Override
+	public int count() {
+		return externalSystemDao.count();
+	}
 }

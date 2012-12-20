@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.model.ScoringScheme;
 
-@Transactional
 public class SchemeDaoImpl extends AbstractHibernateDAOImpl<ScoringScheme, Long> implements
 		SchemeDao {
 
@@ -32,7 +31,6 @@ public class SchemeDaoImpl extends AbstractHibernateDAOImpl<ScoringScheme, Long>
 		if(count > 0)
 			return true;
 		return false;
-
 	}
-
+	
 }

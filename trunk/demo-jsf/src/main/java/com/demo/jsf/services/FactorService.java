@@ -11,6 +11,7 @@ public interface FactorService {
 	void delete(Long factorId);
 	ScoringFactor getFactorById(Long id);
 	List<ScoringFactor> getFactorList();
+	List<ScoringFactor> getFactorList(int first, int pageSize);
 	boolean isNameExist(String name);
-	
+	int count();
 }

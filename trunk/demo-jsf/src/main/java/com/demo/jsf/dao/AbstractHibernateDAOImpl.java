@@ -3,6 +3,7 @@ package com.demo.jsf.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -55,6 +56,14 @@ public abstract class AbstractHibernateDAOImpl<T extends EntityBean, KeyType ext
 		return (getHibernateTemplate().find("from " + domainClass.getName()
 				+ " x"));
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> getList(int first, int pageSize) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(domainClass);
+		criteria.setFirstResult(first);
+		criteria.setMaxResults(pageSize);
+		return criteria.list();
+	}
 
 	public void deleteById(KeyType id) {
 		Object obj = load(id);
@@ -78,16 +87,7 @@ public abstract class AbstractHibernateDAOImpl<T extends EntityBean, KeyType ext
 	public int count() {
 		List list = getHibernateTemplate().find(
 				"select count(*) from " + domainClass.getName() + " x");
-		Integer count = (Integer) list.get(0);
+		Long count = (Long) list.get(0);
 		return count.intValue();
 	}
-	
-	
-//	public void deleteById(KeyType id) {
-//		String queryStr = "delete " + domainClass.getName() + " x " + "where x.id =:id";
-//		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
-//		query.setParameter("id", id);
-//		query.executeUpdate();
-//	}
-
 }

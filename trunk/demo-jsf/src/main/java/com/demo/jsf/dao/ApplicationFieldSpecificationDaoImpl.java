@@ -64,7 +64,23 @@ public class ApplicationFieldSpecificationDaoImpl extends AbstractHibernateDAOIm
 		return list;
 	}
 	
-	public long countByDataTypeId(Long dataTypeId) {
+	public List<ApplicationFieldSpecification> getAppFieldSpecList(Long appSpecId, int first, int pageSize) {
+
+		String queryStr = "from " + domainClass.getName() + " x " 
+							+ "where x.appSpec.id =:appSpecId";
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
+		query.setParameter("appSpecId", appSpecId);
+		query.setFirstResult(first);
+		query.setMaxResults(pageSize);
+		@SuppressWarnings("unchecked")
+		List<ApplicationFieldSpecification> list = query.list();
+		if (list == null) {
+			list = Collections.emptyList();
+		}
+		return list;
+	}
+	
+	public int countByDataTypeId(Long dataTypeId) {
 		String queryStr = "select count(*) from " + domainClass.getName() + " x " + "where x.dataType.id =:dataTypeId";
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
 		query.setParameter("dataTypeId", dataTypeId);
@@ -72,10 +88,11 @@ public class ApplicationFieldSpecificationDaoImpl extends AbstractHibernateDAOIm
 		if (list == null) {
 			return 0;
 		}
-		return (Long)list.get(0);
+		Long count = (Long)list.get(0);
+		return count.intValue();
 	}
 	
-	public long countByAppSpecId(Long appSpecId) {
+	public int countByAppSpecId(Long appSpecId) {
 		String queryStr = "select count(*) from " + domainClass.getName() + " x " + "where x.appSpec.id =:appSpecId";
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
 		query.setParameter("appSpecId", appSpecId);
@@ -83,7 +100,8 @@ public class ApplicationFieldSpecificationDaoImpl extends AbstractHibernateDAOIm
 		if (list == null) {
 			return 0;
 		}
-		return (Long)list.get(0);
+		Long count = (Long)list.get(0);
+		return count.intValue();
 	}
 
 }

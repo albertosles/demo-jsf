@@ -39,14 +39,17 @@ public class RuleCaseServiceImpl implements RuleCaseService, Serializable {
 	public List<ScoringRuleCase> getRuleCaseList(Long ruleId, List<Long> excludeIds) {
 		return ruleCaseDao.getRuleCaseList(ruleId, excludeIds);
 	}
-	
+	@Override
+	public List<ScoringRuleCase> getRuleCaseList(Long ruleId, int first, int pageSize) {
+		return ruleCaseDao.getRuleCaseList(ruleId, first, pageSize);
+	}
 	@Override
 	public List<ScoringRuleCase> getRuleCaseList() {
 		return ruleCaseDao.getList();
 	}
 	
 	@Override
-	public long countByRuleId(Long ruleId) {
+	public int countByRuleId(Long ruleId) {
 		return ruleCaseDao.countByRuleId(ruleId);
 	}
 	

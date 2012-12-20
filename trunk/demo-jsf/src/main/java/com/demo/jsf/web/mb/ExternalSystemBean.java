@@ -1,12 +1,12 @@
 package com.demo.jsf.web.mb;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.demo.jsf.dto.LazyExtSystemDataModel;
 import com.demo.jsf.model.ExternalSystem;
 import com.demo.jsf.services.ApplicationSpecificationService;
 import com.demo.jsf.services.ExternalSystemService;
@@ -23,9 +23,12 @@ public class ExternalSystemBean implements Serializable {
 	
 	private ExternalSystem selectedExtSys;
 	
+	private LazyExtSystemDataModel extSystemDataModel;
+	
 	@PostConstruct
 	public void init() {
 		extSystem = new ExternalSystem();
+		extSystemDataModel = new LazyExtSystemDataModel(extSystemService);
 	}
 	
 	public String saveExtSystem() {
@@ -51,7 +54,6 @@ public class ExternalSystemBean implements Serializable {
 	public void deleteExtSystem() {
 
 		if(selectedExtSys == null) return;
-		
 		long appSpecsCount = appSpecsService.countByExtSysId(selectedExtSys.getId());
 		if(appSpecsCount > 0) {
 			FacesMessage msg = new FacesMessage("Error", "The External System is not empty, Please remove all Application Specification first.");
@@ -70,10 +72,6 @@ public class ExternalSystemBean implements Serializable {
 	
 	public void showEditExtSystem() {
 		extSystem = selectedExtSys;
-	}
-	
-	public List<ExternalSystem> getExtSystemList() {
-		return extSystemService.getExtSystemList();
 	}
 	
 	/////------------/////
@@ -107,6 +105,10 @@ public class ExternalSystemBean implements Serializable {
 
 	public void setSelectedExtSys(ExternalSystem selectedExtSys) {
 		this.selectedExtSys = selectedExtSys;
+	}
+
+	public LazyExtSystemDataModel getExtSystemDataModel() {
+		return extSystemDataModel;
 	}
 
 }

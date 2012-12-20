@@ -11,7 +11,8 @@ public interface RuleCaseService {
 	void createRuleCase(ScoringRuleCase ruleCase);
 	void updateRuleCase(ScoringRuleCase ruleCase);
 	void delete(Long schemeId);
-	List<ScoringRuleCase> getRuleCaseList(Long ruleId,  List<Long> excludeIds);
+	List<ScoringRuleCase> getRuleCaseList(Long ruleId, List<Long> excludeIds);
+	List<ScoringRuleCase> getRuleCaseList(Long ruleId, int first, int pageSize);
 	List<ScoringRuleCase> getRuleCaseList();
-	long countByRuleId(Long schemeId);
+	int countByRuleId(Long ruleId);
 }

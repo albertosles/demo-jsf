@@ -6,13 +6,9 @@ import com.demo.jsf.model.ScoringRule;
 
 public interface RuleDao extends AbstractDAO<ScoringRule, Long> {
 	
-	
 	List<ScoringRule> getList(Long schemeId, List<Long> excludeIds);
-	
+	List<ScoringRule> getList(Long schemeId, int first, int pageSize);
 	List<ScoringRule> getRuleList();
-	
-	long countBySchemeId(Long schemeId);
-	
-	long countByFactorId(Long schemeId);
-	
+	int countBySchemeId(Long schemeId);
+	int countByFactorId(Long schemeId);
 }

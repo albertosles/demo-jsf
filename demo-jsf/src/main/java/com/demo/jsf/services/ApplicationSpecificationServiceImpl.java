@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.dao.ApplicationSpecificationDao;
 import com.demo.jsf.model.ApplicationSpecification;
 
 @Service(ApplicationSpecificationService.SERVICE_ID)
+@Transactional
 public class ApplicationSpecificationServiceImpl implements ApplicationSpecificationService, Serializable {
 	
 	@Autowired
@@ -43,6 +45,11 @@ public class ApplicationSpecificationServiceImpl implements ApplicationSpecifica
 	}
 	
 	@Override
+	public List<ApplicationSpecification> getAppSpecsList(int first, int pageSize) {
+		return appSpecsDao.getList(first, pageSize);
+	}
+	
+	@Override
 	public ApplicationSpecification findByName(String name) {
 		return appSpecsDao.findByName(name);
 	}
@@ -50,6 +57,11 @@ public class ApplicationSpecificationServiceImpl implements ApplicationSpecifica
 	@Override
 	public boolean isNameExist(String name) {
 		return appSpecsDao.isNameExist(name);
+	}
+	
+	@Override
+	public int count() {
+		return appSpecsDao.count();
 	}
 	
 	@Override

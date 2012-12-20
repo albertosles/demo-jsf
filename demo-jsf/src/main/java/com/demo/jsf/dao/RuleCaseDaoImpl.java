@@ -30,10 +30,26 @@ public class RuleCaseDaoImpl extends AbstractHibernateDAOImpl<ScoringRuleCase, L
 			list = Collections.emptyList();
 		}
 		return list;
+	}
+	
+	public List<ScoringRuleCase> getRuleCaseList(Long ruleId, int first, int pageSize) {
+
+		String queryStr = "from " + domainClass.getName() + " x " 
+							+ "where x.rule.id =:ruleId";
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
+		query.setParameter("ruleId", ruleId);
+		query.setFirstResult(first);
+		query.setMaxResults(pageSize);
+		@SuppressWarnings("unchecked")
+		List<ScoringRuleCase> list = query.list();
+		if (list == null) {
+			list = Collections.emptyList();
+		}
+		return list;
 
 	}
 	
-	public long countByRuleId(Long ruleId) {
+	public int countByRuleId(Long ruleId) {
 		
 		String queryStr = "select count(*) from " + domainClass.getName() + " x " + "where x.rule.id =:ruleId";
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
@@ -43,7 +59,8 @@ public class RuleCaseDaoImpl extends AbstractHibernateDAOImpl<ScoringRuleCase, L
 		if (list == null) {
 			return 0;
 		}
-		return (Long)list.get(0);
+		Long count = (Long) list.get(0);
+		return count.intValue();
 	}
 
 }

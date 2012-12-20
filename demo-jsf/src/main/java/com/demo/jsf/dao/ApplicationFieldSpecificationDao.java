@@ -9,6 +9,7 @@ public interface ApplicationFieldSpecificationDao extends AbstractDAO<Applicatio
 	boolean isNameExist(String name);
 	boolean isNameExist(String name, Long appSpecId);
 	List<ApplicationFieldSpecification> getAppFieldSpecList(Long appSpecId);
-	long countByDataTypeId(Long dataTypeId);
-	long countByAppSpecId(Long appSpecId);
+	List<ApplicationFieldSpecification> getAppFieldSpecList(Long appSpecId, int first, int pageSize);
+	int countByDataTypeId(Long dataTypeId);
+	int countByAppSpecId(Long appSpecId);
 }

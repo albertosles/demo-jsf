@@ -13,8 +13,8 @@
 			<h:form id="appSpecsForm">
 				<h2>#{msg['scoring.appSpecs.pageTitle']}</h2>
 				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
-				<p:dataTable var="appSpecs" value="#{appSpecsBean.appSpecsList}" paginator="true" rows="10" style="width:90%"
-					selectionMode="single" selection="#{appSpecsBean.selectedAppSpecs}" rowKey="#{appSpecs.id}">
+				<p:dataTable var="appSpecs" value="#{appSpecsBean.appSpecDataModel}" paginator="true" rows="10" style="width:90%"
+					selectionMode="single" selection="#{appSpecsBean.selectedAppSpecs}" rowKey="#{appSpecs.id}" lazy="true">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="ID" />
@@ -62,9 +62,9 @@
 					
 					<h:panelGrid id="viewFieldListPanel" columns="2">
 						
-						<p:dataTable var="field" value="#{appSpecsBean.appFieldSpecsList}" paginator="true" rows="10" 
+						<p:dataTable var="field" value="#{appSpecsBean.appFieldSpecDataModel}" paginator="true" rows="10" 
 							paginatorPosition="bottom"
-							selectionMode="single" selection="#{appSpecsBean.selectedField}" rowKey="#{field.id}">
+							selectionMode="single" selection="#{appSpecsBean.selectedField}" rowKey="#{field.id}" lazy="true">
 							<p:column style="width:100px;">
 								<f:facet name="header">
 									<h:outputText value="ID" />

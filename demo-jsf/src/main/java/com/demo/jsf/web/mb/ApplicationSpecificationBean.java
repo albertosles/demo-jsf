@@ -1,13 +1,14 @@
 package com.demo.jsf.web.mb;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.demo.jsf.dto.LazyAppFieldSpecDataModel;
+import com.demo.jsf.dto.LazyAppSpecDataModel;
 import com.demo.jsf.model.ApplicationFieldSpecification;
 import com.demo.jsf.model.ApplicationSpecification;
 import com.demo.jsf.model.DataType;
@@ -43,6 +44,10 @@ public class ApplicationSpecificationBean implements Serializable {
 	
 	private ApplicationFieldSpecification selectedField;
 	
+	private LazyAppSpecDataModel appSpecDataModel;
+	
+	private LazyAppFieldSpecDataModel appFieldSpecDataModel;
+	
 	private Long extSystemId;
 	
 	private Long dataTypeId;
@@ -51,6 +56,8 @@ public class ApplicationSpecificationBean implements Serializable {
 	public void init() {
 		appSpecs = new ApplicationSpecification();
 		appFieldSpecs = new ApplicationFieldSpecification();
+		appSpecDataModel = new LazyAppSpecDataModel(appSpecsService);
+		appFieldSpecDataModel = new LazyAppFieldSpecDataModel(appFieldSpecService);
 	}
 	
 	public String saveAppSpecs() {
@@ -163,20 +170,20 @@ public class ApplicationSpecificationBean implements Serializable {
 		
 	}
 	
-	public List<ApplicationSpecification> getAppSpecsList() {
-		return appSpecsService.getAppSpecsList();
-	}
+//	public List<ApplicationSpecification> getAppSpecsList() {
+//		return appSpecsService.getAppSpecsList();
+//	}
 	
 	public List<ExternalSystem> getExternalSystemList() {
 		return extSystemService.getExtSystemList();
 	}
 	
-	public List<ApplicationFieldSpecification> getAppFieldSpecsList() {
-		if(selectedAppSpecs != null) {
-			return appFieldSpecService.getAppFieldSpecList(selectedAppSpecs.getId());
-		}
-		return Collections.emptyList();
-	}
+//	public List<ApplicationFieldSpecification> getAppFieldSpecsList() {
+//		if(selectedAppSpecs != null) {
+//			return appFieldSpecService.getAppFieldSpecList(selectedAppSpecs.getId());
+//		}
+//		return Collections.emptyList();
+//	}
 	
 	public List<DataType> getDataTypeList() {
 		return dataTypeService.getDataTypeList();
@@ -277,6 +284,17 @@ public class ApplicationSpecificationBean implements Serializable {
 
 	public void setDataTypeId(Long dataTypeId) {
 		this.dataTypeId = dataTypeId;
+	}
+
+	public LazyAppSpecDataModel getAppSpecDataModel() {
+		return appSpecDataModel;
+	}
+
+	public LazyAppFieldSpecDataModel getAppFieldSpecDataModel() {
+		if(selectedAppSpecs != null) {
+			appFieldSpecDataModel.setAppSpecId(selectedAppSpecs.getId());
+		}
+		return appFieldSpecDataModel;
 	}
 
 }

@@ -16,8 +16,8 @@
 				
 				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
 				
-				<p:dataTable var="scheme" value="#{scoringSchemeBean.schemeList}" paginator="true" rows="5" style="width:90%"
-					selectionMode="single" selection="#{scoringSchemeBean.selectedScheme}" rowKey="#{scheme.id}">
+				<p:dataTable var="scheme" value="#{scoringSchemeBean.schemeDataModel}" paginator="true" rows="5" style="width:90%"
+					selectionMode="single" selection="#{scoringSchemeBean.selectedScheme}" rowKey="#{scheme.id}" lazy="true">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="ID" />
@@ -99,10 +99,9 @@
 					
 					<h:panelGrid id="viewRuleListPanel" columns="2">
 						
-						<p:dataTable var="rule" value="#{scoringSchemeBean.ruleList}" paginator="true" rows="4" 
+						<p:dataTable var="rule" value="#{scoringSchemeBean.ruleDataModel}" paginator="true" rows="4" 
 							paginatorPosition="bottom"
-							selectionMode="single" selection="#{scoringSchemeBean.selectedRule}" rowKey="#{rule.id}"
-							>
+							selectionMode="single" selection="#{scoringSchemeBean.selectedRule}" rowKey="#{rule.id}" lazy="true">
 							<p:column style="width:100px;">
 								<f:facet name="header">
 									<h:outputText value="ID" />
@@ -154,8 +153,8 @@
 					<p:messages showSummary="false" showDetail="true"></p:messages>
 					<h:panelGrid id="viewRuleCaseListPanel" columns="2">
 						
-						<p:dataTable var="ruleCase" value="#{scoringSchemeBean.ruleCaseList}" paginator="true" rows="3" paginatorPosition="bottom"
-							selectionMode="single" selection="#{scoringSchemeBean.selectedRuleCase}" rowKey="#{ruleCase.id}">
+						<p:dataTable var="ruleCase" value="#{scoringSchemeBean.ruleCaseDataModel}" paginator="true" rows="3" paginatorPosition="bottom"
+							selectionMode="single" selection="#{scoringSchemeBean.selectedRuleCase}" rowKey="#{ruleCase.id}" lazy="true">
 							<p:column style="width:100px;">
 								<f:facet name="header">
 									<h:outputText value="ID" />
@@ -269,15 +268,6 @@
 				</p:dialog>
 			</h:form>
 			
-			<p:dialog header="Evaluated Credit Score" widgetVar="dlgShowCreditScore" width="550" height="250">
-				<h:panelGrid columns="3">
-					
-					<h:outputText value="#{msg['scoring.evaluate.name']}: " />
-					<h:outputText value="#{scoringSchemeBean.evaluatedCreditScore}" />
-					
-				</h:panelGrid>
-			</p:dialog>
-				
 		</ui:define>
 	</ui:composition>
 </h:body>

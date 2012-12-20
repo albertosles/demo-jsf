@@ -42,8 +42,23 @@ public class RuleDaoImpl extends AbstractHibernateDAOImpl<ScoringRule, Long>
 		return list;
 	}
 	
+	public List<ScoringRule> getList(Long schemeId, int first, int pageSize) {
+
+		String queryStr = "from " + domainClass.getName() + " x " 
+							+ "where x.scheme.id =:schemeId";
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
+		query.setParameter("schemeId", schemeId);
+		query.setFirstResult(first);
+		query.setMaxResults(pageSize);
+		@SuppressWarnings("unchecked")
+		List<ScoringRule> list = query.list();
+		if (list == null) {
+			list = Collections.emptyList();
+		}
+		return list;
+	}
 	
-	public long countBySchemeId(Long schemeId) {
+	public int countBySchemeId(Long schemeId) {
 		
 		String queryStr = "select count(*) from " + domainClass.getName() + " x " + "where x.scheme.id =:schemeId";
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
@@ -53,10 +68,11 @@ public class RuleDaoImpl extends AbstractHibernateDAOImpl<ScoringRule, Long>
 		if (list == null) {
 			return 0;
 		}
-		return (Long)list.get(0);
+		Long count = (Long) list.get(0);
+		return count.intValue();
 	}
 	
-	public long countByFactorId(Long factorId) {
+	public int countByFactorId(Long factorId) {
 		
 		String queryStr = "select count(*) from " + domainClass.getName() + " x " + "where x.factor.id =:factorId";
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(queryStr);
@@ -65,7 +81,8 @@ public class RuleDaoImpl extends AbstractHibernateDAOImpl<ScoringRule, Long>
 		if (list == null) {
 			return 0;
 		}
-		return (Long)list.get(0);
+		Long count = (Long) list.get(0);
+		return count.intValue();
 	}
 
 }

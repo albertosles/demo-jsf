@@ -7,6 +7,7 @@ import com.demo.jsf.model.ScoringRuleCase;
 public interface RuleCaseDao extends AbstractDAO<ScoringRuleCase, Long> {
 	
 	public List<ScoringRuleCase> getRuleCaseList(Long ruleId, List<Long> excludeIds);
-	long countByRuleId(Long ruleId);
+	public List<ScoringRuleCase> getRuleCaseList(Long ruleId, int first, int pageSize);
+	int countByRuleId(Long ruleId);
 
 }

@@ -17,6 +17,8 @@ public interface AbstractDAO<DomainObject, KeyType> {
 	public void deleteById(KeyType id);
 
 	public List<DomainObject> getList();
+	
+	public List<DomainObject> getList(int first, int pageSize);
 
 	public void deleteAll();
 

@@ -45,15 +45,20 @@ public class RuleServiceImpl implements RuleService, Serializable {
 	}
 	
 	@Override
+	public List<ScoringRule> getRuleList(Long schemeId, int first, int pageSize) {
+		return ruleDao.getList(schemeId, first, pageSize);
+	}
+	
+	@Override
 	public List<ScoringRule> getRuleList(Long schemeId, List<Long> excludeIds) {
 		return ruleDao.getList(schemeId, excludeIds);
 	}
 	
-	public long countBySchemeId(Long schemeId) { 
+	public int countBySchemeId(Long schemeId) { 
 		return ruleDao.countBySchemeId(schemeId);
 	}
 	
-	public long countByFactorId(Long factorId) { 
+	public int countByFactorId(Long factorId) { 
 		return ruleDao.countByFactorId(factorId);
 	}
 

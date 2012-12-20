@@ -17,11 +17,12 @@ public interface ApplicationSpecificationService {
 	void delete(Long appSpecsId);
 	
 	List<ApplicationSpecification> getAppSpecsList();
+	List<ApplicationSpecification> getAppSpecsList(int first, int pageSize);
 	
 	ApplicationSpecification findByName(String name);
 	
 	boolean isNameExist(String name);
-	
+	int count();
 	long countByExtSysId(Long extSysId);
 	
 }

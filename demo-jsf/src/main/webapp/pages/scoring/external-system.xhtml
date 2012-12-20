@@ -13,8 +13,8 @@
 			<h:form id="extSystForm">
 				<h2>#{msg['scoring.extSyst.pageTitle']}</h2>
 				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
-				<p:dataTable var="extSys" value="#{externalSystemBean.extSystemList}" paginator="true" rows="5" style="width:90%"
-					selectionMode="single" selection="#{externalSystemBean.selectedExtSys}" rowKey="#{extSys.id}">
+				<p:dataTable var="extSys" value="#{externalSystemBean.extSystemDataModel}" paginator="true" rows="5" style="width:90%"
+					selectionMode="single" selection="#{externalSystemBean.selectedExtSys}" rowKey="#{extSys.id}" lazy="true">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="ID" />

@@ -121,7 +121,7 @@ public class ScoringSchemeBean implements Serializable {
 			ScoringFactor factor = factorService.getFactorById(factorId);
 			rule.setFactor(factor);
 			
-			if(rule.getId() > 0) {
+			if(rule.getId() != null && rule.getId() > 0) {
 				//updating rule
 				ruleService.updateRule(rule);
 				FacesMessage msg = new FacesMessage("Successfull", "The Rule has been updated successfully.");

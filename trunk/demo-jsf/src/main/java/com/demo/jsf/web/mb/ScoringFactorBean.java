@@ -67,6 +67,10 @@ public class ScoringFactorBean implements Serializable {
 		return factorDataModel;
 	}
 
+	public List<ScoringFactor> getFactorList() {
+		return factorService.getFactorList();
+	}
+	
 	/////------------/////
 	public FactorService getFactorService() {
 		return factorService;

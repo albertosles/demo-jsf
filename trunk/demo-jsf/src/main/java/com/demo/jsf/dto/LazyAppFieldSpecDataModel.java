@@ -7,9 +7,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.demo.jsf.model.ApplicationFieldSpecification;
-import com.demo.jsf.model.ScoringRule;
 import com.demo.jsf.services.ApplicationFieldSpecificationService;
-import com.demo.jsf.services.RuleService;
 
 public class LazyAppFieldSpecDataModel extends LazyDataModel<ApplicationFieldSpecification> {
 

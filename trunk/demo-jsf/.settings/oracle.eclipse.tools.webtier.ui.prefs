@@ -1,4 +1,4 @@
-#Wed Nov 14 11:53:35 ICT 2012
+#Fri Dec 14 14:10:42 ICT 2012
 //_hiddenCategory_\:http\://java.sun.com/jsf/composite=false
 //_hiddenCategory_\:http\://java.sun.com/jsf/core=false
 //_hiddenCategory_\:http\://java.sun.com/jsf/facelets=false
@@ -6,6 +6,8 @@
 //_hiddenCategory_\:http\://java.sun.com/jsp/jstl/core=false
 //_hiddenCategory_\:http\://mojarra.dev.java.net/mojarra_ext=true
 //_hiddenCategory_\:http\://primefaces.org/ui=false
+//_hiddenCategory_\:http\://www.springframework.org/tags=false
+//_hiddenCategory_\:http\://www.springframework.org/tags/form=false
 _hiddenCategory_\:DataPalette=false
 _hiddenCategory_\:HTML=false
 _hiddenCategory_\:jsp11=false

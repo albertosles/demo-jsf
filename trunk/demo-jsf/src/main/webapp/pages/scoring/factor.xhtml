@@ -13,7 +13,7 @@
 			<h:form id="scoringFactorForm">
 				<h2>#{msg['scoring.factor.pageTitle']}</h2>
 				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
-				<p:dataTable var="factor" value="#{scoringFactorBean.factorDataModel}" paginator="true" rows="5" style="width:90%"
+				<p:dataTable var="factor" value="#{scoringFactorBean.factorDataModel}" paginator="true" rows="10" style="width:90%"
 					selectionMode="single" selection="#{scoringFactorBean.selectedFactor}" rowKey="#{factor.id}" lazy="true">
 					<p:column>
 						<f:facet name="header">

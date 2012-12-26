@@ -7,9 +7,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.demo.jsf.model.ExternalSystem;
-import com.demo.jsf.model.ScoringFactor;
 import com.demo.jsf.services.ExternalSystemService;
-import com.demo.jsf.services.FactorService;
 
 public class LazyExtSystemDataModel extends LazyDataModel<ExternalSystem> {
 

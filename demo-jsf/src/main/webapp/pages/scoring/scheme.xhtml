@@ -16,7 +16,7 @@
 				
 				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
 				
-				<p:dataTable var="scheme" value="#{scoringSchemeBean.schemeDataModel}" paginator="true" rows="5" style="width:90%"
+				<p:dataTable var="scheme" value="#{scoringSchemeBean.schemeDataModel}" paginator="true" rows="10" style="width:90%"
 					selectionMode="single" selection="#{scoringSchemeBean.selectedScheme}" rowKey="#{scheme.id}" lazy="true">
 					<p:column>
 						<f:facet name="header">

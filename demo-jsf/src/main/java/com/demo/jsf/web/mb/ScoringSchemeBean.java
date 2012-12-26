@@ -1,8 +1,6 @@
 package com.demo.jsf.web.mb;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;

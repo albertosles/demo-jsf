@@ -1,4 +1,4 @@
-package com.demo.jsf.services.ws.endpoints;
+package com.demo.ws.endpoints;
 
 import javax.jws.WebService;
 

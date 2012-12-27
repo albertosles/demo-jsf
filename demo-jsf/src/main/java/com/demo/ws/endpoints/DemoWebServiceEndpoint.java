@@ -1,4 +1,4 @@
-package com.demo.jsf.services.ws.endpoints;
+package com.demo.ws.endpoints;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -10,7 +10,7 @@ import com.demo.jsf.dto.RequestDto;
 import com.demo.jsf.services.HelloWorldServiceImpl;
 
 @Service("demoWebServiceEndpoint")
-@WebService(serviceName = "ws/DemoWebService", targetNamespace = "http://endpoints.ws.services.jsf.demo.com/")
+@WebService(serviceName = "ws/DemoWebService", targetNamespace = "http://endpoints.ws.demo.com/")
 public class DemoWebServiceEndpoint implements DemoWebService {
 
 	@Autowired

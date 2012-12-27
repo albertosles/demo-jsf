@@ -4,7 +4,7 @@
 	<groupId>com.demo.jsf</groupId>
 	<artifactId>demo-jsf</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>demo-jsf Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -17,22 +17,22 @@
 		<profile>
 			<id>production</id>
 			<properties>
-				<web.context>/demo-jsf-pro</web.context>
+				<web.context>/demo-jsf</web.context>
                 <profile.name>production</profile.name>
 			</properties>
 			<build>
-				<finalName>demo-jsf-pro</finalName>
+				<finalName>demo-jsf</finalName>
 			</build>
 		</profile>
 
 		<profile>
 			<id>dev</id>
 			<properties>
-				<web.context>/demo-jsf-dev</web.context>
+				<web.context>/demo-jsf</web.context>
                 <profile.name>dev</profile.name>
             </properties>
 			<build>
-				<finalName>demo-jsf-dev</finalName>
+				<finalName>demo-jsf</finalName>
 			</build>
 		</profile>
 	</profiles>
@@ -236,7 +236,6 @@
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId> org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -246,17 +245,7 @@
 	
 	<build>
 		<finalName>demo-jsf</finalName>
-		<resources>
-            <resource>
-                <directory>${basedir}/src/profiles/${profile.name}</directory>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/profiles/${profile.name}/resources</directory>
-            </resource>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-			</resource>
-		</resources>
+		<outputDirectory>${basedir}/target/classes</outputDirectory>	
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -265,6 +254,30 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<!-- this is important -->
+							<overwrite>true</overwrite>
+							<!-- target -->
+							<outputDirectory>${basedir}/target/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/profiles/${profile.name}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
    		</plugins>
 	</build>

@@ -14,7 +14,6 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:dao="http://autodao.sourceforge.net/schemas/autodao-0.1"
 	
-	
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -27,9 +26,9 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
         http://autodao.sourceforge.net/schemas/autodao-0.1 http://autodao.sourceforge.net/schemas/autodao-0.1.xsd">
 
-	<context:property-placeholder location="classpath:jdbc.properties" />
-		
-	<context:component-scan base-package="com.demo.jsf" />
+	<context:property-placeholder location="classpath:jdbc.properties,classpath:remoting.properties" />
+	
+	<context:component-scan base-package="com.demo.jsf;com.demo.ws.endpoints" />
 	
 	<aop:config>
 		<aop:pointcut id="serviceMethods" expression="execution(* persist.*Dao*.*(..))" />
@@ -42,6 +41,10 @@
 		</tx:attributes>
 	</tx:advice>
 	
+	<!-- User Beans -->
+	<bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
+		<property name="baseAddress" value="${jaxWsBaseUrl}"/>
+	</bean>
 	
 	<bean id="devDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -85,11 +88,6 @@
 		p:cacheQueries="true" p:sessionFactory-ref="sessionFactory"
 		p:allowCreate="false" />
 		
-	
-	<!-- User Beans -->
-	<bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
-		<property name="baseAddress" value="http://localhost:8081/"/>
-	</bean>
 	
 	<bean id="userService" class="com.demo.jsf.services.UserServiceImpl"></bean>
 	<bean id="schemeDao" class="com.demo.jsf.dao.SchemeDaoImpl" />

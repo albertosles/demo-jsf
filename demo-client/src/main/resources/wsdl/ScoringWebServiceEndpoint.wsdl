@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ws/ScoringWebService" targetNamespace="http://endpoints.ws.demo.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://endpoints.ws.demo.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://endpoints.ws.demo.com/" elementFormDefault="unqualified" targetNamespace="http://endpoints.ws.demo.com/" version="1.0">
+<xs:element name="appField" type="tns:appField"/>
+<xs:element name="applicationDoc" type="tns:applicationDocument"/>
+<xs:element name="calculateScoring" type="tns:calculateScoring"/>
+<xs:element name="calculateScoringResponse" type="tns:calculateScoringResponse"/>
+<xs:complexType name="calculateScoring">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="extSysId" type="xs:long"/>
+      <xs:element minOccurs="0" name="appSpecId" type="xs:long"/>
+      <xs:element minOccurs="0" name="mapScheId" type="xs:long"/>
+      <xs:element minOccurs="0" name="appDoc" type="tns:applicationDocument"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="applicationDocument">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="fields" type="tns:appField"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="appField">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="calculateScoringResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="calculateScoringResponse">
+    <wsdl:part name="parameters" element="tns:calculateScoringResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="calculateScoring">
+    <wsdl:part name="parameters" element="tns:calculateScoring">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ScoringWebService">
+    <wsdl:operation name="calculateScoring">
+      <wsdl:input name="calculateScoring" message="tns:calculateScoring">
+    </wsdl:input>
+      <wsdl:output name="calculateScoringResponse" message="tns:calculateScoringResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ws/ScoringWebServiceSoapBinding" type="tns:ScoringWebService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="calculateScoring">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="calculateScoring">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="calculateScoringResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ws/ScoringWebService">
+    <wsdl:port name="ScoringWebServiceEndpointPort" binding="tns:ws/ScoringWebServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ScoringWebServiceEndpointPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

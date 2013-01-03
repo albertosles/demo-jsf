@@ -1,6 +1,7 @@
 package com.demo.ws.endpoints;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,10 @@ public class ScoringWebServiceEndpoint implements ScoringWebService {
 	private ScoringService scoringService;
 	
 	@WebMethod
-	public double calculateScoring(Long extSysId, Long appSpecId, Long mapScheId, ApplicationDocument appDoc) {
+	public double calculateScoring(@WebParam(name = "extSysId") Long extSysId, 
+			@WebParam(name = "appSpecId") Long appSpecId, 
+			@WebParam(name = "mapScheId") Long mapScheId, 
+			@WebParam(name = "appDoc") ApplicationDocument appDoc) {
 		return scoringService.calculateScoring(extSysId, appSpecId, mapScheId, appDoc);
 	}
 	

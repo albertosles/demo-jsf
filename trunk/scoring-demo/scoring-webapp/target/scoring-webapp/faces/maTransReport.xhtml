@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<h:form id="paResForm">
+		<p:messages id="paResMessages" showDetail="true" autoUpdate="true" />
+		<p:panel header="3D-Secure Response Filter">
+			<h:panelGrid columns="8" cellpadding="1" style="width:100%">
+				<h:outputText value="From Date(*)"></h:outputText>
+				<p:calendar id="fromDate" value="#{mbReports.paResFilter.fromDate}" label="From Date"
+					required="true" effect="slideDown" pattern="dd/MM/yyyy"></p:calendar>
+				<h:outputText value=" To Date(*)"></h:outputText>
+
+				<p:calendar id="toDate" value="#{mbReports.paResFilter.toDate}" label="To Date"
+					required="true" effect="slideDown" pattern="dd/MM/yyyy"></p:calendar>
+
+				<h:outputText value="Pan"></h:outputText>
+				<p:inputText value="#{mbReports.paResFilter.pan}"></p:inputText>
+
+				<h:outputLabel value="Authentication Status" for="authStatus" />
+				<p:selectOneMenu style="width:270px"
+					value="#{mbReports.paResFilter.status}" required="false"
+					id="authStatus" >
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="Authentication Successful(Y)" itemValue="Y" />
+					<f:selectItem itemLabel="Authentication Attempted(A)"
+						itemValue="A" />
+					<f:selectItem itemLabel="Authentication Could Not Be Performed(U)"
+						itemValue="U" />
+					<f:selectItem itemLabel="Authentication Failed(N)" itemValue="N" />
+				</p:selectOneMenu>
+
+				<p:commandButton value="Search"
+					actionListener="#{mbReports.doPaResSearch}"
+					update="paResForm:paResTablePanel "></p:commandButton>
+			</h:panelGrid>
+		</p:panel>
+
+		<p:panel id="paResTablePanel">
+			<p:dataTable id="paResTable" var="item" paginator="true" rows="5"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+											{PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				value="#{mbReports.paResModels}" rowKey="#{item.id}">
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="acqBIN" />
+					</f:facet>
+					<h:outputText value="#{item.acqBIN}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="merchantID" />
+					</f:facet>
+					<h:outputText value="#{item.merchantID}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="pan" />
+					</f:facet>
+					<h:outputText value="#{item.pan}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="xid" />
+					</f:facet>
+					<h:outputText value="#{item.xid}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Date" />
+					</f:facet>
+					<h:outputText value="#{item.date}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="purchAmount" />
+					</f:facet>
+					<h:outputText value="#{item.purchAmount}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Currentcy" />
+					</f:facet>
+					<h:outputText value="#{item.currency}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="exponent" />
+					</f:facet>
+					<h:outputText value="#{item.exponent}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="status" />
+					</f:facet>
+					<h:outputText value="#{item.status}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Eci" />
+					</f:facet>
+					<h:outputText value="#{item.eci}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Cavv" />
+					</f:facet>
+					<h:outputText value="#{item.cavv}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+
+		<h:panelGrid columns="2" width="100%" height="50px">
+			<p:panel header="Export All Data">
+				<h:commandLink>
+					<p:graphicImage value="/images/excel.png" />
+					<p:dataExporter type="xls" target="paResTable" fileName="paRes" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage value="/images/pdf.png" />
+					<p:dataExporter type="pdf" target="paResTable" fileName="paRes" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage value="/images/csv.png" />
+					<p:dataExporter type="csv" target="paResTable" fileName="paRes" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage value="/images/xml.png" />
+					<p:dataExporter type="xml" target="paResTable" fileName="paRes" />
+				</h:commandLink>
+			</p:panel>
+
+			<p:panel header="Export Page Data">
+				<h:commandLink>
+					<p:graphicImage value="/images/excel.png" />
+					<p:dataExporter type="xls" target="paResTable" fileName="paRes"
+						pageOnly="true" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage value="/images/pdf.png" />
+					<p:dataExporter type="pdf" target="paResTable" fileName="paRes"
+						pageOnly="true" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage value="/images/csv.png" />
+					<p:dataExporter type="csv" target="paResTable" fileName="paRes"
+						pageOnly="true" />
+				</h:commandLink>
+
+				<h:commandLink>
+					<p:graphicImage value="/images/xml.png" />
+					<p:dataExporter type="xml" target="paResTable" fileName="paRes"
+						pageOnly="true" />
+				</h:commandLink>
+			</p:panel>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

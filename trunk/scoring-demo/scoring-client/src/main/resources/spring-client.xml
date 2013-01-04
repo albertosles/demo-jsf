@@ -21,9 +21,9 @@
 
 	<bean id="scoringWebService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
 		<property name="serviceInterface" value="com.demo.ws.endpoints.ScoringWebService" />
-		<property name="wsdlDocumentUrl" value="http://localhost:8081/ws/ScoringWebService?wsdl" />
+		<property name="wsdlDocumentUrl" value="http://localhost:8081/wsScoringWebService?wsdl" />
 		<property name="namespaceUri" value="http://endpoints.ws.demo.com/" />
-		<property name="serviceName" value="ws/ScoringWebService" />
+		<property name="serviceName" value="wsScoringWebService" />
 		<property name="portName" value="ScoringWebServiceEndpointPort" />
 	</bean>
 	

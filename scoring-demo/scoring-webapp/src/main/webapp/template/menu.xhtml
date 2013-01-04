@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Transaction" url="/faces/fiTransPage.xhtml"
+				icon="ui-icon-pencil" />
+			<!-- <p:menuitem value="Management Transaction" url="/faces/maTransPage.xhtml" icon="ui-icon-document" />  -->
+			<p:menuitem value="Reports " url="/faces/reportPage.xhtml"
+				icon="ui-icon-document" />
+			<p:menuitem value="Configuration" url="/faces/configPage.xhtml"
+				icon="ui-icon-gear" />
+
+			<!-- 
+			<p:submenu label="Transaction Monitor" icon="ui-icon-pencil" width="100%" >		
+				<p:menuitem value="Transactions " url="/faces/transPage.xhtml" />				
+				<p:menuitem value="Transaction Historys" url="#"/>		
+			</p:submenu>
+
+			<p:submenu label="Reports" icon="ui-icon-document">
+				<p:menuitem value="Transaction Reports" url="#" 
+					helpText="CTRL+Z"></p:menuitem>
+				<p:menuitem value="PARes Reports" url="#" 
+					helpText="CTRL+Y"></p:menuitem>
+			</p:submenu>
+			 
+			<p:submenu label="Merchant" icon="ui-icon-gear">
+				<p:menuitem value="Configuration" url="#" />
+				
+			</p:submenu>
+			-->
+			<p:menuitem value="Logout" action="#{mbAuthentication.logout}"
+				icon="ui-icon-close" ajax="false" />
+			
+		</p:menubar>
+
+	</h:form>
+</h:body>
+</html>

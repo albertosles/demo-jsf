@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+
+<body>
+	<h:form id="loginForm">
+		<p:growl id="growl" globalOnly="true"></p:growl>
+		<p:panel header="Login">
+			<h:panelGrid id="loginPanel" columns="2">
+				<h:outputText value="User Name: " />
+				<p:inputText id="username" value="#{mbAuthentication.user.login}"
+					required="true"></p:inputText>
+				<p:spacer></p:spacer>
+				<p:message for="username"></p:message>
+				<h:outputText value="Password: " />
+				<p:password id="password" value="#{mbAuthentication.user.password}"
+					required="true" feedback="false"></p:password>
+				<p:spacer></p:spacer>
+				<p:message for="password"></p:message>
+				<p:spacer></p:spacer>
+				<p:commandButton action="#{mbAuthentication.doLogin}" value="Login"
+					ajax="false"></p:commandButton>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</body>
+</html>

@@ -5,6 +5,7 @@ import java.util.List;
 import com.demo.jsf.model.ApplicationFieldSpecification;
 
 public interface ApplicationFieldSpecificationService {
+	
 	final String SERVICE_ID = "appFieldSpecService";
 	
 	void create(ApplicationFieldSpecification appFieldSpecs);

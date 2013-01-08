@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<h1>Datatable Demo in PrimeFaces</h1>
+
+	<h:form id="form">
+		<p:dataTable var="car" value="#{carBean.cars}" paginator="true" rows="3" selectionMode="multiple"
+			selection="#{carBean.selectedCars}">
+		
+			<f:facet name="header">List of Cars</f:facet>
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Model" />
+				</f:facet>
+				<h:outputText value="#{car.model}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Year" />
+				</f:facet>
+				<h:outputText value="#{car.year}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Manufacturer" />
+				</f:facet>
+				<h:outputText value="#{car.manufacturer}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Color" />
+				</f:facet>
+				<h:outputText value="#{car.color}" />
+			</p:column>
+			
+		</p:dataTable>
+                               
+       </h:form>
+		
+</h:body>
+</html>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			
+			<h:form id="appSpecsForm">
+				<h2>#{msg['scoring.appSpecs.pageTitle']}</h2>
+				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+				<p:dataTable var="appSpecs" value="#{appSpecsBean.appSpecDataModel}" paginator="true" rows="10" style="width:90%"
+					selectionMode="single" selection="#{appSpecsBean.selectedAppSpecs}" rowKey="#{appSpecs.id}" lazy="true">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{appSpecs.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Application Specification Name" />
+						</f:facet>
+						<h:outputText value="#{appSpecs.name}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="External System  Name" />
+						</f:facet>
+						<h:outputText value="#{appSpecs.externalSystem.name}" />
+					</p:column>
+					
+					 <f:facet name="footer">
+					 	<p:commandButton value="Create new Application Specification" actionListener="#{appSpecsBean.showCreateAppSpecs}"
+					 		update=":createAppSpecsForm" oncomplete="dlgAppSpecs.show()" />
+					 	<p:commandButton value="Edit Application Specification" actionListener="#{appSpecsBean.showEditAppSpecs}"
+					 		update=":createAppSpecsForm" oncomplete="dlgAppSpecs.show()" />
+					 	
+					 	<p:commandButton value="Delete Application Specification" icon="" 
+					 		actionListener="#{appSpecsBean.deleteAppSpecs}"
+					 		update=":appSpecsForm"/>
+					 		
+					 	<p:commandButton value="List of Fields" 
+					 		actionListener="#{appSpecsBean.showListOfFields}"
+					 		update=":fieldListForm" oncomplete="dlgViewFieldList.show()"/>
+                    </f:facet>
+				</p:dataTable>
+			
+			</h:form>
+			
+			<p:dialog id="fieldList" header="List of Fields" 
+				widgetVar="dlgViewFieldList" modal="true">
+				<p:ajax event="close" update=":appSpecsForm" />
+				<h:form id="fieldListForm">
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					
+					<h:panelGrid id="viewFieldListPanel" columns="2">
+						
+						<p:dataTable var="field" value="#{appSpecsBean.appFieldSpecDataModel}" paginator="true" rows="10" 
+							paginatorPosition="bottom"
+							selectionMode="single" selection="#{appSpecsBean.selectedField}" rowKey="#{field.id}" lazy="true">
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="ID" />
+								</f:facet>
+								<h:outputText value="#{field.id}" />
+							</p:column>
+							<p:column style="width:300px;">
+								<f:facet name="header">
+									<h:outputText value="Field Name" />
+								</f:facet>
+								<h:outputText value="#{field.name}" />
+							</p:column>
+							<p:column style="width:300px;">
+								<f:facet name="header">
+									<h:outputText value="Format Pattern" />
+								</f:facet>
+								<h:outputText value="#{field.formatPattern}" />
+							</p:column>
+							<p:column style="width:300px;">
+								<f:facet name="header">
+									<h:outputText value="Data Type Description" />
+								</f:facet>
+								<h:outputText value="#{field.dataType.description}" />
+							</p:column>
+							<p:column style="width:100px;">
+								<f:facet name="header">
+									<h:outputText value="Data Type Code" />
+								</f:facet>
+								<h:outputText value="#{field.dataType.code}" />
+							</p:column>
+							
+							 <f:facet name="footer">
+							 	<p:commandButton value="Create new Field" actionListener="#{appSpecsBean.showCreateField}" update=":createAppFieldSpecsForm" oncomplete="dlgAppFieldSpecs.show()" />
+							 	<p:commandButton value="Edit Field" actionListener="#{appSpecsBean.showEditField}" update=":createAppFieldSpecsForm" oncomplete="dlgAppFieldSpecs.show()" />
+							 	<p:commandButton value="Delete Field" actionListener="#{appSpecsBean.deleteAppFieldSpecs}" 
+									update=":fieldListForm" oncomplete="dlgViewFieldList.show()"/>
+		                    </f:facet>
+						</p:dataTable>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+			
+			
+			
+			<h:form id="createAppSpecsForm">
+				<p:dialog header="Create new Application Specification" widgetVar="dlgAppSpecs" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":appSpecsForm" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid columns="3">
+						<h:outputText value="#{msg['scoring.appSpecs.name']}: " />
+						<p:inputText id="appSpecsName" value="#{appSpecsBean.appSpecs.name}" required="true"></p:inputText>
+						<p:message for="appSpecsName"></p:message>
+						
+						<h:outputText value="#{msg['scoring.extSyst.name']}: " />
+						<p:selectOneMenu id="extSys" value="#{appSpecsBean.extSystemId}" required="true">
+							<f:selectItem itemLabel="Select an External System" itemValue="" />
+							<f:selectItems value="#{appSpecsBean.externalSystemList}" var="extSys" itemLabel="#{extSys.name}" itemValue="#{extSys.id}"/>
+						</p:selectOneMenu>
+						<p:message for="extSys"></p:message>
+						
+						<h:outputText value=" " />
+						<p:commandButton action="#{appSpecsBean.saveAppSpecs}" value="#{msg['scoring.appSpecs.save']}"
+							update=":createAppSpecsForm" oncomplete="dlgAppSpecs.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="createAppFieldSpecsForm">
+				<p:dialog header="Create new Field" widgetVar="dlgAppFieldSpecs" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":fieldListForm" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid columns="3">
+						<h:outputText value="#{msg['mapping.appFieldSpecs.name']}: " />
+						<p:inputText id="appFieldSpecsName" value="#{appSpecsBean.appFieldSpecs.name}" required="true"></p:inputText>
+						<p:message for="appFieldSpecsName"></p:message>
+						
+						<h:outputText value="#{msg['mapping.appFieldSpecs.formatPattern']}: " />
+						<p:inputText id="formatPattern" value="#{appSpecsBean.appFieldSpecs.formatPattern}"></p:inputText>
+						<p:message for="formatPattern"></p:message>
+						
+						<h:outputText value="#{msg['mapping.dataType.name']}: " />
+						<p:selectOneMenu id="dataType" value="#{appSpecsBean.dataTypeId}" required="true">
+							<f:selectItem itemLabel="-----Select an Data Type-----" itemValue="" />
+							<f:selectItems value="#{appSpecsBean.dataTypeList}" var="dataType" itemLabel="#{dataType.description}" itemValue="#{dataType.id}"/>
+						</p:selectOneMenu>
+						<p:message for="dataType"></p:message>
+						
+						<h:outputText value=" " />
+						<p:commandButton action="#{appSpecsBean.saveAppFieldSpecs}" value="#{msg['mapping.appFieldSpecs.save']}"
+							update=":createAppFieldSpecsForm" oncomplete="dlgAppFieldSpecs.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

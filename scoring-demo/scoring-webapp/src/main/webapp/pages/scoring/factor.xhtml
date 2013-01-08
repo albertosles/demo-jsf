@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			
+			<h:form id="scoringFactorForm">
+				<h2>#{msg['scoring.factor.pageTitle']}</h2>
+				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+				<p:dataTable var="factor" value="#{scoringFactorBean.factorDataModel}" paginator="true" rows="10" style="width:90%"
+					selectionMode="single" selection="#{scoringFactorBean.selectedFactor}" rowKey="#{factor.id}" lazy="true">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{factor.id}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Factor Name" />
+						</f:facet>
+						<h:outputText value="#{factor.name}" />
+					</p:column>
+					
+					 <f:facet name="footer">
+					 	<p:commandButton value="Create new Factor" type="button" onclick="dlgFactor.show()" />
+					 	
+					 	<p:commandButton id="viewButton" value="View" icon="ui-icon-search" 
+					 		update=":scoringFactorForm:viewFactor" oncomplete="dlgViewFactor.show()"/>
+					 		
+					 	<p:commandButton id="deleteFactorButton" value="Delete Factor" icon="" 
+					 		actionListener="#{scoringFactorBean.deleteFactor}"
+					 		update=":scoringFactorForm"/>
+                    </f:facet>
+				</p:dataTable>
+			
+				<p:dialog id="viewFactor" header="View Factor" widgetVar="dlgViewFactor" modal="true" width="400" height="200">
+					<br></br>
+					<h:panelGrid id="viewFactorPanel" columns="2">
+						<h:outputText value="#{msg['scoring.factor.name']}: " />
+						<h:outputText value="#{scoringFactorBean.selectedFactor.name}"/>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="createFactorForm">
+				<p:dialog header="Create new Factor" widgetVar="dlgFactor" width="550" height="250" modal="true">
+					<p:ajax event="close" update=":scoringFactorForm" />
+					<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+					<br></br>
+					<h:panelGrid id="scoringFactorPanel" columns="3">
+						<h:outputText value="#{msg['scoring.factor.name']}: " />
+						<p:inputText id="factorName" value="#{scoringFactorBean.factor.name}" required="true"></p:inputText>
+						<p:message for="factorName"></p:message>
+						<h:outputText value=" " />
+						<p:commandButton action="#{scoringFactorBean.saveFactor}" value="#{msg['scoring.factor.save']}"
+							update=":createFactorForm" oncomplete="dlgFactor.show()"></p:commandButton>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

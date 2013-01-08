@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head></h:head>
+
+<body>
+	<h:form id="registerForm">
+		<h:messages ></h:messages>
+		<h:panelGrid id="registerPanel" columns="3">
+		
+			<h:outputText value="User Name:" />
+			<h:inputText id="userName" value="#{registerBean.user.userName}" required="true"></h:inputText>
+			<h:message for="userName"></h:message>
+			
+			<h:outputText value="Password: " />
+			<h:inputSecret id="password" value="#{registerBean.user.password}" required="true" ></h:inputSecret>
+			<h:message for="password"></h:message>
+			
+			<h:outputText value="Full Name:" />
+			<h:inputText id="fullName" value="#{registerBean.user.fullName}" required="true"></h:inputText>
+			<h:message for="fullName"></h:message>
+			
+			<h:outputText value="Email:" />
+			<h:inputText id="email" value="#{registerBean.user.email}" required="true"></h:inputText>
+			<h:message for="email"></h:message>
+			
+			<h:commandButton action="#{registerBean.saveNewUser}" value="Save User"></h:commandButton>
+			<h:commandLink action="#{registerBean.gotoHomepage}" value="Go to Homepage"></h:commandLink>
+			<h:commandLink action="#{registerBean.gotoLogin}" value="Go to Login page"></h:commandLink>
+		</h:panelGrid>
+		
+		<h:outputText value="#{registerBean.fullName}" />
+	</h:form>
+</body>
+</html>

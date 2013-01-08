@@ -1,0 +1,17 @@
+body, 
+input, 
+textarea, 
+select { 
+	font: 12px/18px Arial, Helvetica, sans-serif; 
+	color: #1f1b18;
+}
+body { 
+	font-size: 75%;
+}
+.clr {
+    clear: both;
+}
+
+.ui-menu .ui-menu-parent .ui-menu-child {
+	width: 250px !important;	
+}

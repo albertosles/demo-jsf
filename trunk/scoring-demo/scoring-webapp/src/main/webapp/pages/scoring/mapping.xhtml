@@ -9,7 +9,19 @@
 <h:body>
 	<ui:composition template="/template/template.xhtml">
 		<ui:define name="content">
-			<ui:include src="/faces/fiTransReport.xhtml" />		
+			
+			<h:form id="scoringMappingForm">
+					<p:messages showSummary="false" showDetail="true"></p:messages>
+					<br></br>
+					<h2>Scoring Evaluation Score:: #{scoringEvaluationBean.total}</h2>
+						
+					<p:commandButton action="#{scoringEvaluationBean.mapCreditScore}" value="#{msg['scoring.evaluate.name']}" 
+						update=":scoringMappingForm"></p:commandButton>
+					
+				
+			</h:form>
+			
+			
 		</ui:define>
 	</ui:composition>
 </h:body>

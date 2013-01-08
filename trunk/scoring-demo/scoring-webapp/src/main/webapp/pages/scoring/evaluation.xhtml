@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/template/template.xhtml">
+		<ui:define name="content">
+			
+			<h:form id="scoringEvaluationForm">
+					<h2>Scoring Evaluation Score:: </h2>
+					<h:panelGrid id="scoringEvaluationPanel" columns="3">
+						
+						<h:outputText value="#{msg['mapping.evaluation.extSysId']}: " />
+						<p:inputText id="extSysId" value="#{scoringEvaluationBean.extSysId}" required="true"></p:inputText>
+						<p:message for="extSysId"></p:message>
+						
+						<h:outputText value="#{msg['mapping.evaluation.mapScheId']}: " />
+						<p:inputText id="mapScheId" value="#{scoringEvaluationBean.mapScheId}" required="true"></p:inputText>
+						<p:message for="mapScheId"></p:message>
+						
+						<h:outputText value="#{msg['mapping.evaluation.appSpecId']}: " />
+						<p:selectOneMenu id="appSpec" value="#{scoringEvaluationBean.appSpecId}">
+							<p:ajax event="change"  update=":scoringEvaluationForm:ruleDataGrid"/>
+							<f:selectItem itemLabel="-------Select a Application Specification-------" itemValue="" />
+							<f:selectItems value="#{scoringEvaluationBean.appSpecList}" var="appSpec" itemLabel="#{appSpec.name}" itemValue="#{appSpec.id}"/>
+						</p:selectOneMenu>
+						<p:message for="appSpec"></p:message>
+					</h:panelGrid>
+						
+					<p:dataGrid id="ruleDataGrid" var="appFieldSpec" value="#{scoringEvaluationBean.appFieldSpecList}" columns="1">
+						<p:column>
+							<p:panel header="#{appFieldSpec.name}">
+								<h:panelGrid columns="1">
+									<h:outputText value="#{appFieldSpec.name} : " />
+									<p:inputText value="#{scoringEvaluationBean.fieldValues[appFieldSpec.id]}" required="true"></p:inputText>
+								</h:panelGrid>
+							</p:panel>
+						</p:column>
+					</p:dataGrid>
+					<p:commandButton action="#{scoringEvaluationBean.mapCreditScore}" value="#{msg['scoring.evaluate.name']}" 
+						update=":scoringEvaluationForm" oncomplete="dlgEvaluationScore.show()"></p:commandButton>
+					
+				<p:dialog header="Total Evaluation Score" widgetVar="dlgEvaluationScore" width="500" height="200">
+					<p:messages showSummary="false" showDetail="true"></p:messages>
+					<h:panelGrid id="scoringSchemePanel" columns="2">
+						<h:outputText value="#{msg['mapping.evaluation.usingExternalSystem']}: " />
+						<h:outputText value="#{scoringEvaluationBean.usingExtSys.name}" style="font-weight:bold;"/>
+						
+						<h:outputText value="#{msg['mapping.evaluation.usingMappingScheme']}: " />
+						<h:outputText value="#{scoringEvaluationBean.usingMappingScheme.name}" style="font-weight:bold;"/>
+					
+						<h:outputText value="#{msg['scoring.evaluate.name']}: " />
+						<h:outputText value="#{scoringEvaluationBean.total}" style="font-weight:bold;"/>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

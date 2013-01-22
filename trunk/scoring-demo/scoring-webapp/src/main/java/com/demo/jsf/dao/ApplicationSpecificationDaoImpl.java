@@ -1,7 +1,9 @@
 package com.demo.jsf.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,15 @@ public class ApplicationSpecificationDaoImpl extends AbstractHibernateDAOImpl<Ap
 			return 0;
 		}
 		return (Long)list.get(0);
+	}
+	
+	public List<ApplicationSpecification> getList(int first, int pageSize, String sortField,
+			String sortOrder, Map<String, String> filters) {
+		
+		Criteria criteria = this.getSessionFactory().
+								getCurrentSession().createCriteria(domainClass);
+		criteria.createAlias("externalSystem", "externalSystem");
+		return getList(first, pageSize, sortField, sortOrder, filters, criteria);
 	}
 	
 }

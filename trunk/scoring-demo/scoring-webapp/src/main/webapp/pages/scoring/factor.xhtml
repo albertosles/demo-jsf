@@ -15,13 +15,13 @@
 				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
 				<p:dataTable var="factor" value="#{scoringFactorBean.factorDataModel}" paginator="true" rows="10" style="width:90%"
 					selectionMode="single" selection="#{scoringFactorBean.selectedFactor}" rowKey="#{factor.id}" lazy="true">
-					<p:column>
+					<p:column sortBy="#{factor.id}">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
 						<h:outputText value="#{factor.id}" />
 					</p:column>
-					<p:column>
+					<p:column sortBy="#{factor.name}" filterBy="#{factor.name}">
 						<f:facet name="header">
 							<h:outputText value="Factor Name" />
 						</f:facet>

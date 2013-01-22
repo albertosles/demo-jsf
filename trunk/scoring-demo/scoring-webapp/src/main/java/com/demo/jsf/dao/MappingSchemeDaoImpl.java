@@ -1,7 +1,9 @@
 package com.demo.jsf.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +62,16 @@ public class MappingSchemeDaoImpl extends AbstractHibernateDAOImpl<MappingScheme
 		if(count > 0)
 			return true;
 		return false;
+	}
+	
+	public List<MappingScheme> getList(int first, int pageSize, String sortField,
+			String sortOrder, Map<String, String> filters) {
+		
+		Criteria criteria = this.getSessionFactory().
+								getCurrentSession().createCriteria(domainClass);
+		criteria.createAlias("appSpec", "appSpec");
+		criteria.createAlias("scheme", "scheme");
+		return getList(first, pageSize, sortField, sortOrder, filters, criteria);
 	}
 
 }

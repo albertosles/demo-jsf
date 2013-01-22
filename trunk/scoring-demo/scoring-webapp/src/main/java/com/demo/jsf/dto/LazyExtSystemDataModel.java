@@ -1,5 +1,6 @@
 package com.demo.jsf.dto;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,8 @@ public class LazyExtSystemDataModel extends LazyDataModel<ExternalSystem> {
 	@Override
 	public List<ExternalSystem> load(int first, int pageSize, String sortField,
 			SortOrder sortOrder, Map<String, String> filters) {
-		dataSource = extSystemService.getExtSystemList(first, pageSize);
+		
+		dataSource = extSystemService.getExtSystemList(first, pageSize, sortField, sortOrder.toString(), filters);
 		int dataSize = extSystemService.count();
 		this.setRowCount(dataSize);
 		return dataSource;

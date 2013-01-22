@@ -12,30 +12,45 @@
 			
 			<h:form id="appSpecsForm">
 				<h2>#{msg['scoring.appSpecs.pageTitle']}</h2>
-				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
-				<p:dataTable var="appSpecs" value="#{appSpecsBean.appSpecDataModel}" paginator="true" rows="10" style="width:90%"
-					selectionMode="single" selection="#{appSpecsBean.selectedAppSpecs}" rowKey="#{appSpecs.id}" lazy="true">
-					<p:column>
+				<p:messages id="messages" showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+				<p:dataTable id="appSpecsDataList" var="appSpecs" value="#{appSpecsBean.appSpecDataModel}" paginator="true" rows="10" style="width:90%"
+					selectionMode="single" selection="#{appSpecsBean.selectedAppSpecs}" rowKey="#{appSpecs.id}" lazy="true" editable="true">
+					<p:ajax event="rowEdit" listener="#{appSpecsBean.onEdit}" update=":appSpecsForm:messages" />
+					<p:column sortBy="#{appSpecs.id}">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
 						<h:outputText value="#{appSpecs.id}" />
 					</p:column>
-					<p:column>
+					<p:column sortBy="#{appSpecs.name}" filterBy="#{appSpecs.name}">
 						<f:facet name="header">
 							<h:outputText value="Application Specification Name" />
 						</f:facet>
-						<h:outputText value="#{appSpecs.name}" />
+						<p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{appSpecs.name}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="nameInput" value="#{appSpecs.name}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
 					</p:column>
 					
-					<p:column>
+					<p:column sortBy="#{appSpecs.externalSystem.name}" filterBy="#{appSpecs.externalSystem.name}">
 						<f:facet name="header">
 							<h:outputText value="External System  Name" />
 						</f:facet>
-						<h:outputText value="#{appSpecs.externalSystem.name}" />
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{appSpecs.externalSystem.name}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{appSpecs.externalSystem.id}" style="width:100%">
+									<f:selectItems value="#{appSpecsBean.externalSystemList}" var="extSys" itemLabel="#{extSys.name}" itemValue="#{extSys.id}"/>
+								</p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
 					</p:column>
 					
-					 <f:facet name="footer">
+					<p:column headerText="Options" style="width:50px">
+                        <p:rowEditor />
+                    </p:column>
+                    
+					<f:facet name="footer">
 					 	<p:commandButton value="Create new Application Specification" actionListener="#{appSpecsBean.showCreateAppSpecs}"
 					 		update=":createAppSpecsForm" oncomplete="dlgAppSpecs.show()" />
 					 	<p:commandButton value="Edit Application Specification" actionListener="#{appSpecsBean.showEditAppSpecs}"

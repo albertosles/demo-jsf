@@ -18,13 +18,13 @@
 				
 				<p:dataTable var="scheme" value="#{scoringSchemeBean.schemeDataModel}" paginator="true" rows="10" style="width:90%"
 					selectionMode="single" selection="#{scoringSchemeBean.selectedScheme}" rowKey="#{scheme.id}" lazy="true">
-					<p:column>
+					<p:column sortBy="#{scheme.id}">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
 						<h:outputText value="#{scheme.id}" />
 					</p:column>
-					<p:column>
+					<p:column sortBy="#{scheme.name}" filterBy="#{scheme.name}">
 						<f:facet name="header">
 							<h:outputText value="Scheme Name" />
 						</f:facet>

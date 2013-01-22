@@ -2,6 +2,7 @@ package com.demo.jsf.services;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,12 @@ public class ExternalSystemServiceImpl implements ExternalSystemService, Seriali
 	@Override
 	public List<ExternalSystem> getExtSystemList(int first, int pageSize) {
 		return externalSystemDao.getList(first, pageSize);
+	}
+	
+	@Override
+	public List<ExternalSystem> getExtSystemList(int first, int pageSize, String sortField,
+			String sortOrder, Map<String, String> filters) {
+		return externalSystemDao.getList(first, pageSize, sortField, sortOrder, filters);
 	}
 	
 	@Override

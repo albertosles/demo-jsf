@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.dao.MappingSchemeRuleCaseDao;
 import com.demo.jsf.model.MappingSchemeRuleCase;
 
+@Transactional
 @Service(MappingSchemeRuleCaseService.SERVICE_ID)
 public class MappingSchemeRuleCaseServiceImpl implements MappingSchemeRuleCaseService, Serializable {
 	

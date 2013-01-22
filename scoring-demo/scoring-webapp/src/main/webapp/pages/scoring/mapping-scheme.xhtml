@@ -13,29 +13,29 @@
 			<h:form id="mappingSchemeForm">
 				<h2>#{msg['mapping.scheme.pageTitle']}</h2>
 				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
-				<p:dataTable var="mapScheme" value="#{mappingSchemeBean.mappingSchemeList}" paginator="true" rows="10" style="width:90%"
-					selectionMode="single" selection="#{mappingSchemeBean.selectedMapScheme}" rowKey="#{mapScheme.id}">
-					<p:column>
+				<p:dataTable var="mapScheme" value="#{mappingSchemeBean.mappingSchemeDataModel}" paginator="true" rows="10" style="width:90%"
+					selectionMode="single" selection="#{mappingSchemeBean.selectedMapScheme}" rowKey="#{mapScheme.id}" lazy="true">
+					<p:column sortBy="#{mapScheme.id}">
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
 						<h:outputText value="#{mapScheme.id}" />
 					</p:column>
-					<p:column>
+					<p:column sortBy="#{mapScheme.name}" filterBy="#{mapScheme.name}">
 						<f:facet name="header">
 							<h:outputText value="Mapping Scheme Name" />
 						</f:facet>
 						<h:outputText value="#{mapScheme.name}" />
 					</p:column>
 					
-					<p:column>
+					<p:column sortBy="#{mapScheme.appSpec.name}" filterBy="#{mapScheme.appSpec.name}">
 						<f:facet name="header">
 							<h:outputText value="Application Specification Name" />
 						</f:facet>
 						<h:outputText value="#{mapScheme.appSpec.name}" />
 					</p:column>
 					
-					<p:column>
+					<p:column sortBy="#{mapScheme.scheme.name}" filterBy="#{mapScheme.scheme.name}">
 						<f:facet name="header">
 							<h:outputText value="Scheme Name" />
 						</f:facet>

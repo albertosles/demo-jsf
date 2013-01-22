@@ -1,6 +1,7 @@
 package com.demo.jsf.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.jsf.model.ApplicationSpecification;
 
@@ -17,7 +18,8 @@ public interface ApplicationSpecificationService {
 	void delete(Long appSpecsId);
 	
 	List<ApplicationSpecification> getAppSpecsList();
-	List<ApplicationSpecification> getAppSpecsList(int first, int pageSize);
+	List<ApplicationSpecification> getAppSpecsList(int first, int pageSize, String sortField,
+			String sortOrder, Map<String, String> filters);
 	
 	ApplicationSpecification findByName(String name);
 	

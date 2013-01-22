@@ -38,7 +38,7 @@ public class LazySchemeDataModel extends LazyDataModel<ScoringScheme> {
 	@Override
 	public List<ScoringScheme> load(int first, int pageSize, String sortField,
 			SortOrder sortOrder, Map<String, String> filters) {
-		dataSource = schemeService.getSchemeList(first, pageSize);
+		dataSource = schemeService.getSchemeList(first, pageSize, sortField, sortOrder.toString(), filters);
 		int dataSize = schemeService.count();
 		this.setRowCount(dataSize);
 		return dataSource;

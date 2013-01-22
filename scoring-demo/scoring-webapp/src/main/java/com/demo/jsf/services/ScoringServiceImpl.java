@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.jexl2.JexlException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.model.ApplicationFieldSpecification;
 import com.demo.jsf.model.MappingSchemeRule;
@@ -22,6 +23,7 @@ import com.demo.utils.MathUtility;
 import com.demo.ws.dto.AppField;
 import com.demo.ws.dto.ApplicationDocument;
 
+@Transactional
 @Service(ScoringService.SERVICE_ID)
 public class ScoringServiceImpl implements ScoringService {
 	

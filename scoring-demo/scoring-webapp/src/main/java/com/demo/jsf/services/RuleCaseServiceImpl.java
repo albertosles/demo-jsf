@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.dao.RuleCaseDao;
 import com.demo.jsf.model.ScoringRuleCase;
 
+@Transactional
 @Service(RuleCaseService.SERVICE_ID)
 public class RuleCaseServiceImpl implements RuleCaseService, Serializable {
 	

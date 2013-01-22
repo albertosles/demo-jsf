@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.RowEditEvent;
+
 import com.demo.jsf.dto.LazyAppFieldSpecDataModel;
 import com.demo.jsf.dto.LazyAppSpecDataModel;
 import com.demo.jsf.model.ApplicationFieldSpecification;
@@ -165,9 +167,15 @@ public class ApplicationSpecificationBean implements Serializable {
 			dataTypeId = selectedField.getDataType().getId();
 		}
 	}
+	
+	public void onEdit(RowEditEvent event) {
+		
+		appSpecsService.updateAppSpecs((ApplicationSpecification)event.getObject());
+		FacesMessage msg = new FacesMessage("Successfull", "The Application Specification has been updated successfully.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+	
 	public void showListOfFields() {
-		
-		
 	}
 	
 //	public List<ApplicationSpecification> getAppSpecsList() {

@@ -12,31 +12,22 @@
 			
 			<h:form id="extSystForm">
 				<h2>#{msg['scoring.extSyst.pageTitle']}</h2>
-				<p:messages id="messages" showSummary="false" showDetail="true" globalOnly="true"></p:messages>
+				<p:messages showSummary="false" showDetail="true" globalOnly="true"></p:messages>
 				<p:dataTable var="extSys" value="#{externalSystemBean.extSystemDataModel}" paginator="true" rows="10" style="width:90%"
-					selectionMode="single" selection="#{externalSystemBean.selectedExtSys}" rowKey="#{extSys.id}" lazy="true" editable="true">
-					<p:ajax event="rowEdit" listener="#{externalSystemBean.onEdit}" update=":extSystForm:messages" />
-                    
-					<p:column sortBy="#{extSys.id}">
+					selectionMode="single" selection="#{externalSystemBean.selectedExtSys}" rowKey="#{extSys.id}" lazy="true">
+					<p:column>
 						<f:facet name="header">
 							<h:outputText value="ID" />
 						</f:facet>
 						<h:outputText value="#{extSys.id}" />
 					</p:column>
-					<p:column sortBy="#{extSys.name}" filterBy="#{extSys.name}">
+					<p:column>
 						<f:facet name="header">
 							<h:outputText value="External System Name" />
 						</f:facet>
-						<p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{extSys.name}" /></f:facet>
-                            <f:facet name="input"><p:inputText id="nameInput" value="#{extSys.name}" style="width:100%"/></f:facet>
-                        </p:cellEditor>
+						<h:outputText value="#{extSys.name}" />
 					</p:column>
 					
-					<p:column headerText="Options" style="width:50px">
-                        <p:rowEditor />
-                    </p:column>
-                    
 					 <f:facet name="footer">
 					 	<p:commandButton value="Create new External System" actionListener="#{externalSystemBean.showCreateExtSystem}"
 					 		update=":createExtSysForm" oncomplete="dlgExtSystem.show()" />

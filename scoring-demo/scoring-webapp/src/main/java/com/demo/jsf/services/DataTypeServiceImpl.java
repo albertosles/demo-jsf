@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.dao.DataTypeDao;
 import com.demo.jsf.model.DataType;
 
+@Transactional
 @Service(DataTypeService.SERVICE_ID)
 public class DataTypeServiceImpl implements DataTypeService, Serializable {
 	

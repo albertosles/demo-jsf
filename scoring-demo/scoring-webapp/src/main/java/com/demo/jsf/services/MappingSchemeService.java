@@ -1,6 +1,7 @@
 package com.demo.jsf.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.jsf.model.MappingScheme;
 
@@ -12,10 +13,13 @@ public interface MappingSchemeService {
 	MappingScheme load(Long mappingSchemeId);
 	void delete(Long schemeId);
 	List<MappingScheme> getSchemeList();
+	List<MappingScheme> getSchemeList(int first, int pageSize, String sortField,
+			String sortOrder, Map<String, String> filters);
 	MappingScheme findByName(String name);
 	boolean isNameExist(String name);
 	MappingScheme getById(Long id);
 	long countByAppSpecsId(Long appSpecsId);
 	boolean isValidInputData(Long extSysId, Long appSpecId, Long mapSchemeId);
+	int count();
 	
 }

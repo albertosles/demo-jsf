@@ -6,6 +6,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.RowEditEvent;
+
 import com.demo.jsf.dto.LazyExtSystemDataModel;
 import com.demo.jsf.model.ExternalSystem;
 import com.demo.jsf.services.ApplicationSpecificationService;
@@ -74,6 +76,19 @@ public class ExternalSystemBean implements Serializable {
 		extSystem = selectedExtSys;
 	}
 	
+	public void onEdit(RowEditEvent event) {
+		
+		extSystemService.updateExtSystem((ExternalSystem)event.getObject());
+		FacesMessage msg = new FacesMessage("Successfull", "The External System has been updated successfully.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void onCancel(RowEditEvent event) {
+    	
+        FacesMessage msg = new FacesMessage("ExternalSystem Cancelled", ((ExternalSystem) event.getObject()).getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
 	/////------------/////
 	public ExternalSystemService getExtSystemService() {
 		return extSystemService;

@@ -38,7 +38,7 @@ public class LazyAppSpecDataModel extends LazyDataModel<ApplicationSpecification
 	@Override
 	public List<ApplicationSpecification> load(int first, int pageSize, String sortField,
 			SortOrder sortOrder, Map<String, String> filters) {
-		dataSource = appSpecService.getAppSpecsList(first, pageSize);
+		dataSource = appSpecService.getAppSpecsList(first, pageSize, sortField, sortOrder.toString(), filters);;
 		int dataSize = appSpecService.count();
 		this.setRowCount(dataSize);
 		return dataSource;

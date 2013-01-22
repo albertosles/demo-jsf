@@ -2,13 +2,16 @@ package com.demo.jsf.services;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.jsf.dao.MappingSchemeDao;
 import com.demo.jsf.model.MappingScheme;
 
+@Transactional
 @Service(MappingSchemeService.SERVICE_ID)
 public class MappingSchemeServiceImpl implements MappingSchemeService, Serializable {
 	
@@ -43,6 +46,13 @@ public class MappingSchemeServiceImpl implements MappingSchemeService, Serializa
 	}
 	
 	@Override
+	public List<MappingScheme> getSchemeList(int first, int pageSize, String sortField,
+			String sortOrder, Map<String, String> filters) {
+		
+		return mappingSchemeDao.getList(first, pageSize, sortField, sortOrder, filters);
+	}
+	
+	@Override
 	public MappingScheme findByName(String name) {
 		return mappingSchemeDao.findByName(name);
 	}
@@ -66,5 +76,10 @@ public class MappingSchemeServiceImpl implements MappingSchemeService, Serializa
 	@Override
 	public boolean isValidInputData(Long extSysId, Long appSpecId, Long mapSchemeId) {
 		return mappingSchemeDao.isValidInputData(extSysId, appSpecId, mapSchemeId);
+	}
+	
+	@Override
+	public int count() {
+		return mappingSchemeDao.count();
 	}
 }

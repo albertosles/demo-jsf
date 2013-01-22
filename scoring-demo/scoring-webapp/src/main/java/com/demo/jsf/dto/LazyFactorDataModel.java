@@ -38,7 +38,7 @@ public class LazyFactorDataModel extends LazyDataModel<ScoringFactor> {
 	@Override
 	public List<ScoringFactor> load(int first, int pageSize, String sortField,
 			SortOrder sortOrder, Map<String, String> filters) {
-		dataSource = factorService.getFactorList(first, pageSize);
+		dataSource = factorService.getFactorList(first, pageSize, sortField, sortOrder.toString(), filters);
 		int dataSize = factorService.count();
 		this.setRowCount(dataSize);
 		return dataSource;

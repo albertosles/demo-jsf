@@ -1,6 +1,7 @@
 package com.demo.jsf.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.jsf.model.ExternalSystem;
 
@@ -17,7 +18,11 @@ public interface ExternalSystemService {
 	void delete(Long extSystemId);
 	
 	List<ExternalSystem> getExtSystemList();
+	
 	List<ExternalSystem> getExtSystemList(int first, int pageSize);
+	
+	List<ExternalSystem> getExtSystemList(int first, int pageSize, String sortField,
+							String sortOrder, Map<String, String> filters);
 	
 	ExternalSystem findByName(String name);
 	

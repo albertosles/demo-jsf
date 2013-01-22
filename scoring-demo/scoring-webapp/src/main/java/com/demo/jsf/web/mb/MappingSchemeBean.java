@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import com.demo.jsf.dto.LazyMappingSchemeDataModel;
 import com.demo.jsf.model.ApplicationSpecification;
 import com.demo.jsf.model.MappingScheme;
 import com.demo.jsf.model.MappingSchemeRule;
@@ -53,6 +54,7 @@ public class MappingSchemeBean implements Serializable {
 	
 	private MappingSchemeRuleCase selectedMapRuleCase;
 	
+	private LazyMappingSchemeDataModel mappingSchemeDataModel;
 	
 	private Long scoringSchemeId;
 	
@@ -67,6 +69,7 @@ public class MappingSchemeBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		mappingScheme = new MappingScheme();
+		mappingSchemeDataModel = new LazyMappingSchemeDataModel(mappingSchemeService);
 	}
 	
 	public String saveMappingScheme() {
@@ -261,7 +264,7 @@ public class MappingSchemeBean implements Serializable {
 
 
 	public List<ScoringRule> getScoringRuleList() {
-		if(selectedMapScheme != null) {
+		if(selectedMapScheme != null && selectedMapRule != null) {
 			List<Long> excludeIds = mappingRuleService.getScoringRuleIds();
 			if(isEdit) excludeIds.remove(selectedMapRule.getRule().getId());
 			return ruleService.getRuleList(selectedMapScheme.getScheme().getId(), excludeIds);
@@ -413,6 +416,10 @@ public class MappingSchemeBean implements Serializable {
 
 	public void setRuleCaseService(RuleCaseService ruleCaseService) {
 		this.ruleCaseService = ruleCaseService;
+	}
+
+	public LazyMappingSchemeDataModel getMappingSchemeDataModel() {
+		return mappingSchemeDataModel;
 	}
 
 }

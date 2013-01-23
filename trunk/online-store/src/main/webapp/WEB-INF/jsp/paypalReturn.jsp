@@ -22,17 +22,21 @@
 		
 		<table border="1">
 			<tr>
-				<th>No</th>
+				<th>ID</th>
 				<th>Item Name</th>
+				<th>Item Description</th>
 				<th>Quantity</th>
 				<th>Price</th>
+				<th>Total</th>
 			</tr>
 			<c:forEach items = "${cartList}" var="item">
 				<tr>
+					<td>${item.id}</td>
 					<td>${item.name}</td>
 					<td>${item.description}</td>
 					<td>${item.quantity}</td>
-					<td>${item.amount.value}</td>
+					<td>${item.price}</td>
+					<td>${item.price * item.quantity}</td>
           		</tr>
           	</c:forEach>
 		</table>

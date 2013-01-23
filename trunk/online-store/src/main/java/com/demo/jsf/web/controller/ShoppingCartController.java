@@ -24,8 +24,7 @@ public class ShoppingCartController {
 	
 	@RequestMapping(value="/view", method = RequestMethod.GET)
 	public String viewCart(HttpServletRequest request, Model model) {
-		model.addAttribute("cartList", ShoppingCartData.shopppingCartList);
-		model.addAttribute("cartList01", ShoppingCartUtils.getCartList(request.getSession()));
+		model.addAttribute("cartList", ShoppingCartUtils.getCartList(request.getSession()));
 		return "shoppingcart";
 	}
 	

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<body>
+
+	<p:panelGrid columns="1" style="width:100%;">
+		<h:outputText value="SCORING SYSTEM" style="font-weight:bold;width:30px" />
+	</p:panelGrid>
+
+	<ui:include src="/template/menu.xhtml" />
+	<p:ajaxStatus style="width:5px;height:5px;" id="ajaxStatusPanel">
+		<f:facet name="start">
+			<h:graphicImage value="../images/ajaxloading.gif" />
+		</f:facet>
+
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+</body>
+</html>

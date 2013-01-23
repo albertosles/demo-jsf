@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head></h:head>
+
+<body>
+	<h:form id="registerForm">
+		<h:panelGrid id="registerPanel" columns="2">
+			<h:outputText value="Output 01: " />
+			<h:outputText value="#{converterDemoBean.doubleValue}">
+				<f:convertNumber maxFractionDigits="5"></f:convertNumber>
+			</h:outputText>
+			<h:outputText value="Output 02: " />
+			<h:outputText value="#{converterDemoBean.doubleValue}">
+				<f:convertNumber maxFractionDigits="0"></f:convertNumber>
+			</h:outputText>
+			
+		</h:panelGrid>
+		
+	</h:form>
+</body>
+</html>

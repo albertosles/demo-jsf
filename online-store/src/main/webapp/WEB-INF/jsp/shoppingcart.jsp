@@ -26,57 +26,65 @@
 	         </c:forEach>
 		</c:if>
 		
-		<table border="1">
-			<tr>
-				<th>No</th>
-				<th>Item Name</th>
-				<th>Quantity</th>
-				<th>Price</th>
-				<th>Total</th>
-				<th>X</th>
-			</tr>
-			<c:forEach items = "${cartList01}" var="item">
-				<tr>
-					<td>${item.name}</td>
-					<td>${item.description}</td>
-					<td>${item.quantity}</td>
-					<td>${item.price}</td>
-					<td>${item.price * item.quantity}</td>
-					<td><a href="<c:url value='/shoppingcart/remove-item.do'/>?id=${item.id}">REMOVE</a></td>
-          		</tr>
-          	</c:forEach>
-		</table>
-		<br>
-		<table border="1">
-			<tr>
-				<td>Buyer Email</td>
-				<td>
-					<input type="text" name="buyerEmail" />
-				</td>
-          	</tr>
-			<tr>
-				<td>Payment Action</td>
-				<td>
-					<select name="paymentAction">
-						<option value="None">None</option>
-						<option value="Sale">Sale</option>
-						<option value="Order">Order</option>
-						<option value="Authorization">Authorization</option>
-					</select>
-				</td>
-          	</tr>
-          	<tr>
-				<td>Currency</td>
-				<td>
-					<select name="currencyCode">
-						<option value="USD">USD</option>
-						<option value="EUR">EURO</option>
-					</select>
-				</td>
-          	</tr>
-		</table>
-		<br>
-		<input type="submit" value="Check out" />
+		<c:choose>
+			<c:when test="${not empty cartList}">
+				<table border="1">
+					<tr>
+						<th>ID</th>
+						<th>Item Name</th>
+						<th>Description</th>
+						<th>Quantity</th>
+						<th>Price</th>
+						<th>Total</th>
+						<th>X</th>
+					</tr>
+					<c:forEach items = "${cartList}" var="item">
+						<tr>
+							<td>${item.id}</td>
+							<td>${item.name}</td>
+							<td>${item.description}</td>
+							<td>${item.quantity}</td>
+							<td>${item.price}</td>
+							<td>${item.price * item.quantity}</td>
+							<td><a href="<c:url value='/shoppingcart/remove-item.do'/>?id=${item.id}">REMOVE</a></td>
+		          		</tr>
+		          	</c:forEach>
+				</table>
+				<br>
+				<table border="1">
+					<!-- <tr>
+						<td>Buyer Email</td>
+						<td>
+							<input type="text" name="buyerEmail" />
+						</td>
+		          	</tr> -->
+					<tr>
+						<td>Payment Action</td>
+						<td>
+							<select name="paymentAction">
+								<option value="Sale">Sale</option>
+							</select>
+						</td>
+		          	</tr>
+		          	<tr>
+						<td>Currency</td>
+						<td>
+							<select name="currencyCode">
+								<option value="USD">USD</option>
+								<option value="EUR">EURO</option>
+							</select>
+						</td>
+		          	</tr>
+				</table>
+				<br>
+				<input type="submit" value="Check out" />
+			</c:when>
+			<c:otherwise>
+				<p style="font-style: italic;color: blue;">SHOPPING CART IS EMPTY</p>
+			</c:otherwise>
+		</c:choose>
+		
+		
 		<br><br>
 		<a href="<c:url value='/product/browse.do'/>">Continue Shopping</a>
 		

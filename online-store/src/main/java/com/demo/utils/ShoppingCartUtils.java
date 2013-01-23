@@ -60,6 +60,10 @@ public class ShoppingCartUtils {
 		}
 	}
 	
+	public static void clearShoppingCart(HttpSession session) {
+		session.setAttribute(CURR_SHOPPING_CART, null);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static List<Product> getCartList(HttpSession session) {
 		return (List<Product>)session.getAttribute(CURR_SHOPPING_CART);

@@ -96,7 +96,7 @@ public class PaymentController {
 				model.addAttribute("Ack", resp.getAck());
 				model.addAttribute("token", resp.getGetExpressCheckoutDetailsResponseDetails().getToken());
 				model.addAttribute("payerID", resp.getGetExpressCheckoutDetailsResponseDetails().getPayerInfo().getPayerID());
-				model.addAttribute("cartList", ShoppingCartData.shopppingCartList);
+				model.addAttribute("cartList", ShoppingCartUtils.getCartList(request.getSession()));
 			} else {
 				model.addAttribute("Error", resp.getErrors());
 			}
@@ -148,9 +148,8 @@ public class PaymentController {
 				int qtyItems = item.getQuantity();
 				String amountItems = item.getAmount().getValue();
 				itemTotal += qtyItems * Double.parseDouble(amountItems);
-				orderTotal += itemTotal;
 			}
-			
+			orderTotal += itemTotal;
 			List<PaymentDetailsType> payDetails = new ArrayList<PaymentDetailsType>();
 			PaymentDetailsType paydtl = new PaymentDetailsType();
 			//Payment Type value
@@ -286,9 +285,7 @@ public class PaymentController {
 				}
 			}
 		return "shoppingcart";
-		
 	}
-	
 	
 	@RequestMapping(value="/confirm-payment", method = RequestMethod.POST)
 	public String confirmPayment(HttpServletRequest request, Model model) {
@@ -323,7 +320,6 @@ public class PaymentController {
 			itemTotalAmt += qtyItems * Double.parseDouble(amountItems);
 			orderTotalAmt += itemTotalAmt;
 		}
-		
 		PaymentDetailsType paymentDetails = new PaymentDetailsType();
 		BasicAmountType orderTotal = new BasicAmountType();
 		orderTotal.setValue(Double.toString(orderTotalAmt));
@@ -345,7 +341,6 @@ public class PaymentController {
 		doCheckoutPaymentRequestType.setDoExpressCheckoutPaymentRequestDetails(details);
 		DoExpressCheckoutPaymentReq doExpressCheckoutPaymentReq = new DoExpressCheckoutPaymentReq();
 		doExpressCheckoutPaymentReq.setDoExpressCheckoutPaymentRequest(doCheckoutPaymentRequestType);
-
 		DoExpressCheckoutPaymentResponseType doCheckoutPaymentResponseType = null;
 		try {
 			doCheckoutPaymentResponseType = service.doExpressCheckoutPayment(doExpressCheckoutPaymentReq);
@@ -374,7 +369,6 @@ public class PaymentController {
 		}
 		if (doCheckoutPaymentResponseType != null) {
 			if (doCheckoutPaymentResponseType.getAck().toString().equalsIgnoreCase("SUCCESS")) {
-				
 				model.addAttribute("Ack", doCheckoutPaymentResponseType.getAck());
 				Iterator<PaymentInfoType> iterator = doCheckoutPaymentResponseType.getDoExpressCheckoutPaymentResponseDetails()
 														.getPaymentInfo().iterator();
@@ -391,7 +385,8 @@ public class PaymentController {
 				model.addAttribute("Error", doCheckoutPaymentResponseType.getErrors());
 			}
 		}
-		model.addAttribute("cartList", ShoppingCartData.shopppingCartList);
+		model.addAttribute("cartList", ShoppingCartUtils.getCartList(request.getSession()));
+		ShoppingCartUtils.clearShoppingCart(request.getSession());
 		return "confirmation";
 	}
 }

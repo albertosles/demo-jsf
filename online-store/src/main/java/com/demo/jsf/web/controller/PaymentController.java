@@ -38,7 +38,6 @@ import urn.ebay.apis.eBLBaseComponents.PaymentDetailsType;
 import urn.ebay.apis.eBLBaseComponents.PaymentInfoType;
 import urn.ebay.apis.eBLBaseComponents.SetExpressCheckoutRequestDetailsType;
 
-import com.demo.utils.ShoppingCartData;
 import com.demo.utils.ShoppingCartUtils;
 import com.paypal.exception.ClientActionRequiredException;
 import com.paypal.exception.HttpErrorException;
